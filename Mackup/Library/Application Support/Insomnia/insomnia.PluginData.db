@@ -1,0 +1,4 @@
+{"_id":"plg_004c98d863194d3e92095cdf64bf642d","type":"PluginData","parentId":null,"modified":1615304841359,"created":1615304841359,"plugin":"insomnia-plugin-kong-bundle","key":"kongPortalUrl","value":""}
+{"_id":"plg_059db0c2d48b4eb59528e6cc04a6cb77","type":"PluginData","parentId":null,"modified":1615304841376,"created":1615304841376,"plugin":"insomnia-plugin-kong-bundle","key":"kongPortalUserWorkspace","value":""}
+{"_id":"plg_1b8a9d1823f3423da9473d2221e362d5","type":"PluginData","parentId":null,"modified":1615304841322,"created":1615304841322,"plugin":"insomnia-plugin-kong-bundle","key":"kongPortalRbacToken","value":""}
+{"_id":"plg_7517a99d9c07415689ad61c638cd12f3","type":"PluginData","parentId":null,"modified":1615304841338,"created":1615304841338,"plugin":"insomnia-plugin-kong-bundle","key":"kongPortalApiUrl","value":""}
