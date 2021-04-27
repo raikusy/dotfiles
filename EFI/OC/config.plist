@@ -9,26 +9,26 @@
 			<dict>
 				<key>Comment</key>
 				<string>SSDT-EC.aml</string>
+				<key>Enabled</key>
+				<true/>
 				<key>Path</key>
 				<string>SSDT-EC.aml</string>
-				<key>Enabled</key>
-				<true/>
 			</dict>
 			<dict>
 				<key>Comment</key>
 				<string>SSDT-PLUG.aml</string>
-				<key>Path</key>
-				<string>SSDT-PLUG.aml</string>
 				<key>Enabled</key>
 				<true/>
+				<key>Path</key>
+				<string>SSDT-PLUG.aml</string>
 			</dict>
 			<dict>
 				<key>Comment</key>
 				<string>SSDT-USBX.aml</string>
-				<key>Path</key>
-				<string>SSDT-USBX.aml</string>
 				<key>Enabled</key>
 				<true/>
+				<key>Path</key>
+				<string>SSDT-USBX.aml</string>
 			</dict>
 		</array>
 		<key>Delete</key>
@@ -194,7 +194,7 @@
 			<key>AvoidRuntimeDefrag</key>
 			<true/>
 			<key>DevirtualiseMmio</key>
-			<true/>
+			<false/>
 			<key>DisableSingleUser</key>
 			<false/>
 			<key>DisableVariableWrite</key>
@@ -233,6 +233,11 @@
 	<dict>
 		<key>Add</key>
 		<dict>
+			<key>PciRoot(0x0)/Pci(0x14,0x0)</key>
+			<dict>
+				<key>acpi-wake-type</key>
+				<data>AQ==</data>
+			</dict>
 			<key>PciRoot(0x0)/Pci(0x1F,0x3)</key>
 			<dict>
 				<key>layout-id</key>
@@ -242,11 +247,6 @@
 			<dict>
 				<key>AAPL,ig-platform-id</key>
 				<data>AwCRPg==</data>
-			</dict>
-			<key>PciRoot(0x0)/Pci(0x14,0x0)</key>
-			<dict>
-				<key>acpi-wake-type</key>
-				<data>AQ==</data>
 			</dict>
 		</dict>
 		<key>Delete</key>
@@ -409,14 +409,14 @@
 				<string>RTCMemoryFixup.kext</string>
 				<key>Comment</key>
 				<string></string>
+				<key>Enabled</key>
+				<true/>
 				<key>ExecutablePath</key>
 				<string>Contents/MacOS/RTCMemoryFixup</string>
 				<key>MaxKernel</key>
 				<string>19.99.99</string>
 				<key>MinKernel</key>
 				<string>19.0.0</string>
-				<key>Enabled</key>
-				<true/>
 				<key>PlistPath</key>
 				<string>Contents/Info.plist</string>
 			</dict>
@@ -427,14 +427,32 @@
 				<string>USBMap.kext</string>
 				<key>Comment</key>
 				<string></string>
+				<key>Enabled</key>
+				<true/>
 				<key>ExecutablePath</key>
 				<string>Contents/MacOS/USBMap</string>
 				<key>MaxKernel</key>
 				<string>19.99.99</string>
 				<key>MinKernel</key>
 				<string>19.0.0</string>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+			</dict>
+			<dict>
+				<key>Arch</key>
+				<string>Any</string>
+				<key>BundlePath</key>
+				<string>CPUFriendDataProvider.kext</string>
+				<key>Comment</key>
+				<string></string>
 				<key>Enabled</key>
 				<true/>
+				<key>ExecutablePath</key>
+				<string>Contents/MacOS/CPUFriendDataProvider</string>
+				<key>MaxKernel</key>
+				<string>19.99.99</string>
+				<key>MinKernel</key>
+				<string>19.0.0</string>
 				<key>PlistPath</key>
 				<string>Contents/Info.plist</string>
 			</dict>
@@ -879,40 +897,22 @@
 				<false/>
 			</dict>
 			<dict>
-				<key>Comment</key>
-				<string>CleanNvram.efi</string>
-				<key>RealPath</key>
-				<false/>
-				<key>Name</key>
-				<string>CleanNvram.efi</string>
-				<key>TextMode</key>
-				<false/>
-				<key>Enabled</key>
-				<true/>
 				<key>Arguments</key>
 				<string></string>
-				<key>Path</key>
-				<string>CleanNvram.efi</string>
 				<key>Auxiliary</key>
 				<true/>
-			</dict>
-			<dict>
 				<key>Comment</key>
+				<string>OpenControl.efi</string>
+				<key>Enabled</key>
+				<true/>
+				<key>Name</key>
+				<string>OpenControl.efi</string>
+				<key>Path</key>
 				<string>OpenControl.efi</string>
 				<key>RealPath</key>
 				<false/>
-				<key>Name</key>
-				<string>OpenControl.efi</string>
 				<key>TextMode</key>
 				<false/>
-				<key>Enabled</key>
-				<true/>
-				<key>Arguments</key>
-				<string></string>
-				<key>Path</key>
-				<string>OpenControl.efi</string>
-				<key>Auxiliary</key>
-				<true/>
 			</dict>
 		</array>
 	</dict>
@@ -934,16 +934,16 @@
 			</dict>
 			<key>7C436110-AB2A-4BBB-A880-FE41995C9F82</key>
 			<dict>
-				<key>SystemAudioVolume</key>
-				<data>Rg==</data>
 				<key>boot-args</key>
-				<string>swd_panic=1 rtcfx_exclude=00-FF</string>
+				<string></string>
 				<key>csr-active-config</key>
 				<data>AAAAAA==</data>
 				<key>prev-lang:kbd</key>
 				<data>ZW4tVVM6MA==</data>
 				<key>run-efi-updater</key>
 				<string>No</string>
+				<key>SystemAudioVolume</key>
+				<data>Rg==</data>
 			</dict>
 		</dict>
 		<key>Delete</key>
@@ -1007,10 +1007,10 @@
 		<dict>
 			<key>AdviseWindows</key>
 			<false/>
-			<key>MLB</key>
-			<string>C029461004NLNV9UE</string>
 			<key>MaxBIOSVersion</key>
 			<false/>
+			<key>MLB</key>
+			<string>C029461004NLNV9UE</string>
 			<key>ProcessorType</key>
 			<integer>0</integer>
 			<key>ROM</key>

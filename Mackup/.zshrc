@@ -9,7 +9,7 @@ setopt NO_NOMATCH
 export EDITOR='nano'
 
 # ----- PLUGINS SETUP -----
-plugins=(git)
+plugins=(git docker docker-compose)
 
 # ----- OH-MY-ZSH SETUP -----
 export ZSH=$HOME/.oh-my-zsh
