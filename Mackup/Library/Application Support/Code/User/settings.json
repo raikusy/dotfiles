@@ -1,12 +1,22 @@
 {
   "editor.fontLigatures": true,
   "editor.fontWeight": "normal",
-  "editor.fontSize": 16,
   "editor.tabSize": 2,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "[typescript]": {
     "editor.formatOnSave": false
+  },
+  "[yaml]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+    "editor.autoIndent": "keep",
+    "gitlens.codeLens.scopes": ["document"],
+    "editor.quickSuggestions": {
+      "other": false,
+      "comments": false,
+      "strings": true
+    }
   },
   "editor.cursorBlinking": "expand",
   "editor.codeActionsOnSave": {
@@ -39,15 +49,15 @@
   "tailwindCSS.emmetCompletions": true,
 
   // Integrated Terminal
-  "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
-  "terminal.integrated.fontSize": 14,
+  // "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
+  "terminal.integrated.fontSize": 16,
   "terminal.integrated.fontFamily": "JetBrains Mono",
 
   // Explorer
   "explorer.confirmDelete": true,
 
   // Workbench
-  "workbench.colorTheme": "Dainty – Cobalt2",
+  "workbench.colorTheme": "Dainty – Dark+ Reimagined",
   "workbench.editor.labelFormat": "short",
   "workbench.productIconTheme": "fluent-icons",
   "workbench.iconTheme": "eq-material-theme-icons-light",
@@ -86,20 +96,18 @@
   "githubPullRequests.fileListLayout": "flat",
 
   "telemetry.enableTelemetry": false,
-"telemetry.enableCrashReporter": false,
+  "telemetry.enableCrashReporter": false,
   "editor.fontFamily": "JetBrains Mono",
-  "tabnine.experimentalAutoImports": true,
-  "terminal.integrated.shell.osx": "zsh",
-  "[c]": {
-    "editor.defaultFormatter": "ms-vscode.cpptools"
+  "terminal.integrated.profiles.osx": {
+    "zsh": {
+      "path": "zsh"
+    }
   },
-  // "[c]": {
-  //   "editor.defaultFormatter": "ms-vscode.cpptools"
-  // }
-  // "swaggerhub.apiKey": "022e9da5-189d-458f-bcd7-f1f81a12298a",
-  // "swaggerhub.orgs": ["raikusy"],
   "mochaExplorer.files": "test/**/*.ts",
   "mochaExplorer.require": "ts-node/register",
   "testExplorer.addToEditorContextMenu": true,
-  "typescript.tsserver.log": "verbose"
+  "typescript.tsserver.log": "off",
+  "clockify.apiKey": "Y2YwMzRkN2MtZmFhNC00NTcyLTk0ZjQtMjI3OGI5NDM3ZjUy",
+  "redhat.telemetry.enabled": false,
+  "editor.fontSize": 14
 }

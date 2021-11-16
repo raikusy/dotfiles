@@ -1,4 +1,4 @@
-# # ----- GO SETUP -----
+# ----- GO SETUP -----
 
 if [[ -f /usr/local/go ]]; then
     export GOROOT=/usr/local/go
