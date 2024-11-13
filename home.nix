@@ -87,7 +87,7 @@
     git = {
       enable = true;
       userName = "raikusy";
-      userEmail = "ping@raikusy.dev";
+      userEmail = "xenax.rakibul@gmail.com";
       ignores = [
         "**/.idea/"
         "**/.direnv/"
@@ -105,9 +105,6 @@
       enable = true;
       enableZshIntegration = true;
       enableFishIntegration = true;
-      settings = {
-        add_newline = false;
-      };
     };
 
     bat = {
@@ -152,5 +149,27 @@
       enableBashIntegration = true;
       enableZshIntegration = true;
     };
+  };
+
+  home.file = {
+    # Add configurations one by one as you create them
+
+    # Example: Once you have fish config:
+    ".config/fish" = {
+      source = ./config/fish;
+      recursive = true;
+    };
+
+    # Example: Once you have starship config:
+    ".config/starship.toml" = {
+      source = ./config/starship/starship.toml;
+    };
+
+    # Git config (if you want to manage beyond what git program module provides)
+    ".gitconfig" = {
+      source = ./config/git/gitconfig;
+    };
+
+    # Add others as you create them
   };
 }

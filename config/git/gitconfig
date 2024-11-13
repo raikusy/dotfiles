@@ -1,0 +1,42 @@
+[init]
+	defaultBranch = main
+[user]
+	email = xenax.rakibul@gmail.com
+	name = Rakibul Hasan
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILi1cbiFBIMivXJpLMBS8w4KsOkPpdMEUd1HW5vzWG5G
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+[commit]
+	gpgsign = true
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+[pull]
+	ff = false
+	rebase = true
+[rebase]
+	autoStash = true
+[alias]
+	up = pull --rebase --autostash
+[core]
+	editor = cursor
+	autocrlf = input
+	whitespace = trailing-space,space-before-tab
+[color]
+	ui = auto
+[diff]
+	algorithm = patience
+[merge]
+	conflictstyle = diff3
+[push]
+	default = simple
+[credential "https://github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
