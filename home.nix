@@ -6,52 +6,77 @@
   home.homeDirectory = "/Users/raikusy";
 
   home.packages = with pkgs; [
-    zsh
-    vim
-    git
-    neovim
-    nixd
-    nixfmt-rfc-style
-    curl
-    wget
-    ripgrep
-    fzf
-    lsd
-    yazi
-    bat
-    zoxide
-    helix
-    aider-chat
-    neomutt
-    mactop
-    kondo
-    pls
-    eza
-    sherlock
-    fnm
-    docker
-    docker-compose
-    rustc
-    cargo
-    rustfmt
-    ox
-    volta
-    bun
-    deno
-    direnv
-    fd
-    htop
-    topgrade
-    colima
-    devenv
-    starship
-    cachix
-    fish
-    whois
-    coreutils
-    fishPlugins.fzf
-    fishPlugins.git-abbr
-    fishPlugins.forgit
+    # Shell and Core Utils
+    zsh # Extended Bourne Shell with many improvements
+    fish # Friendly Interactive Shell
+    coreutils # GNU Core Utilities
+    starship # Cross-shell prompt
+    direnv # Environment switcher
+
+    # Text Editors
+    vim # Popular text editor
+    neovim # Hyperextensible Vim-based text editor
+    helix # Post-modern modal text editor
+
+    # File Management and Navigation
+    yazi # Terminal file manager
+    lsd # Modern ls alternative
+    eza # Modern replacement for ls
+    fd # Simple, fast alternative to find
+    bat # Cat clone with syntax highlighting
+    zoxide # Smarter cd command
+    kondo # Save disk space by cleaning unneeded files
+
+    # Search and Filter
+    ripgrep # Fast grep alternative
+    fzf # Fuzzy finder
+
+    # Development Tools
+    git # Version control system
+    nixd # Nix language server
+    nixfmt-rfc-style # Nix code formatter
+    aider-chat # AI coding assistant
+    devenv # Development environments
+
+    # Package Managers
+    fnm # Fast Node.js version manager
+    volta # JavaScript tool manager
+    bun # All-in-one JavaScript runtime & toolkit
+    cargo # Rust package manager
+    cachix # Nix binary cache hosting
+
+    # Programming Languages & Runtimes
+    rustc # Rust compiler
+    rustfmt # Rust formatter
+    deno # JavaScript/TypeScript runtime
+
+    # Container & Virtualization
+    docker # Container platform
+    docker-compose # Multi-container Docker applications
+    colima # Container runtime for macOS
+
+    # Network Tools
+    curl # Transfer data with URLs
+    wget # Network file retriever
+    whois # Domain information groper
+
+    # System Monitoring
+    htop # Interactive process viewer
+    mactop # macOS system monitor
+    topgrade # System upgrade tool
+
+    # Email
+    neomutt # Terminal mail client
+
+    # Misc Tools
+    pls # Collaborative shell command syntax fixer
+    sherlock # Hunt down social media accounts
+    ox # Terminal hex viewer
+
+    # Fish Shell Plugins
+    fishPlugins.fzf # Fish integration for fzf
+    fishPlugins.git-abbr # Git abbreviations for fish
+    fishPlugins.forgit # Interactive git commands for fish
   ];
 
   # This value determines the Home Manager release that your
@@ -65,9 +90,9 @@
   home.stateVersion = "24.05";
 
   # add home-manager installs in $PATH
-  home.sessionVariables = {
-    PATH = "$PATH:/Users/raikusy/.nix-profile/bin";
-  };
+  # home.sessionVariables = {
+  #   PATH = "$PATH:/Users/raikusy/.nix-profile/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/per-user/raikusy/profile/bin";
+  # };
 
   programs = {
     # Let Home Manager install and manage itself.
@@ -82,6 +107,45 @@
 
     fish = {
       enable = true;
+
+      # Environment variables
+      shellInit = ''
+        # Universal exports
+        set --universal --export ME (whoami)
+        set --universal --export HOME /Users/$ME
+
+        # Project related
+        set --global --export WORK $HOME/workspace
+        set --global --export EDITOR cursor
+
+        # Homebrew
+        set --global --export HOMEBREW_PREFIX /opt/homebrew
+        set --global --export HOMEBREW_CELLAR /opt/homebrew/Cellar
+        set --global --export HOMEBREW_REPOSITORY /opt/homebrew
+
+        # Package managers
+        set --global --export GEM_HOME "$HOME/.gem"
+        set --global --export DENO_INSTALL $HOME/.deno
+        set --global --export NODE_OPTIONS "--max-old-space-size=8192"
+        set --global --export BUN_INSTALL "$HOME/.bun"
+        set --global --export VOLTA_HOME "$HOME/.volta"
+        set --global --export NIX_SW /run/current-system/sw
+        set --global --export NIX_PROFILE /etc/profiles/per-user/$ME
+
+
+        # Path modifications
+        fish_add_path --global --move --path /opt/homebrew/bin /opt/homebrew/sbin
+        fish_add_path $NIX_SW/bin
+        fish_add_path $HOME/.nix-profile/bin
+        fish_add_path $HOME/.local/bin
+        fish_add_path $HOME/.
+      '';
+
+      # Interactive shell initialization
+      interactiveShellInit = ''
+        # Initialize tools
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+      '';
     };
 
     git = {
