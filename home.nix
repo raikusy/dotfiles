@@ -14,7 +14,6 @@
     direnv # Environment switcher
 
     # Text Editors
-    vim # Popular text editor
     neovim # Hyperextensible Vim-based text editor
     helix # Post-modern modal text editor
 
@@ -35,8 +34,11 @@
     git # Version control system
     nixd # Nix language server
     nixfmt-rfc-style # Nix code formatter
+    fh # Nix package manager
     aider-chat # AI coding assistant
     devenv # Development environments
+    gh # GitHub CLI
+    git-credential-manager # Git credential manager
 
     # Package Managers
     fnm # Fast Node.js version manager
@@ -77,6 +79,13 @@
     fishPlugins.fzf # Fish integration for fzf
     fishPlugins.git-abbr # Git abbreviations for fish
     fishPlugins.forgit # Interactive git commands for fish
+
+    # GUI Apps
+    # wezterm # WezTerm Terminal Emulator
+    # arc-browser # Arc Browser
+    # warp-terminal # Warp Terminal
+    # raycast # Raycast
+
   ];
 
   # This value determines the Home Manager release that your

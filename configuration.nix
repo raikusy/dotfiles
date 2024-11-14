@@ -20,6 +20,7 @@
     ];
     use-xdg-base-directories = true;
     accept-flake-config = true;
+    sandbox = false;
   };
 
   # Set Git commit hash for darwin-version.
@@ -35,6 +36,7 @@
     config = {
       allowBroken = true;
       allowUnfree = true;
+      allowUnsupportedSystem = true;
     };
   };
 
