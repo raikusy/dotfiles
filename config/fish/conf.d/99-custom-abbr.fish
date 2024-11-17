@@ -35,9 +35,9 @@ abbr -a -- prs 'pnpm run start'
 abbr -a -- px pnpx
 
 # Nix
-abbr -a -- nx nix
-abbr -a -- nxrd 'nix run nix-darwin'
-abbr -a -- nxdr 'darwin-rebuild switch --flake ~/dotfiles'
+abbr -a -- nx 'nix --extra-experimental-features "nix-command flakes"'
+abbr -a -- nxrd 'nix --extra-experimental-features "nix-command flakes" run nix-darwin'
+abbr -a -- dr 'darwin-rebuild switch --flake ~/dotfiles --impure'
 
 # Common
 abbr -a -- :c clear

@@ -1,9 +1,17 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  self,
+  config,
+  ...
+}:
 {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
+  xdg.enable = true;
   home.username = "raikusy";
   home.homeDirectory = "/Users/raikusy";
+  home.preferXdgDirectories = true;
+  home.enableNixpkgsReleaseCheck = false;
 
   home.packages = with pkgs; [
     # Shell and Core Utils
@@ -15,16 +23,16 @@
 
     # Text Editors
     neovim # Hyperextensible Vim-based text editor
-    helix # Post-modern modal text editor
 
     # File Management and Navigation
     yazi # Terminal file manager
-    lsd # Modern ls alternative
     eza # Modern replacement for ls
     fd # Simple, fast alternative to find
     bat # Cat clone with syntax highlighting
     zoxide # Smarter cd command
     kondo # Save disk space by cleaning unneeded files
+    ox # Independent Rust text editor that runs in your terminal
+    superfile # Supercharged file manager
 
     # Search and Filter
     ripgrep # Fast grep alternative
@@ -35,7 +43,6 @@
     nixd # Nix language server
     nixfmt-rfc-style # Nix code formatter
     fh # Nix package manager
-    aider-chat # AI coding assistant
     devenv # Development environments
     gh # GitHub CLI
     git-credential-manager # Git credential manager
@@ -43,13 +50,13 @@
     # Package Managers
     fnm # Fast Node.js version manager
     volta # JavaScript tool manager
-    bun # All-in-one JavaScript runtime & toolkit
     cargo # Rust package manager
-    cachix # Nix binary cache hosting
+    cargo-update # Update Rust packages
 
     # Programming Languages & Runtimes
     rustc # Rust compiler
     rustfmt # Rust formatter
+    bun # All-in-one JavaScript runtime & toolkit
     deno # JavaScript/TypeScript runtime
 
     # Container & Virtualization
@@ -60,32 +67,33 @@
     # Network Tools
     curl # Transfer data with URLs
     wget # Network file retriever
-    whois # Domain information groper
 
     # System Monitoring
     htop # Interactive process viewer
     mactop # macOS system monitor
     topgrade # System upgrade tool
+    fastfetch # Fast fetch
 
     # Email
     neomutt # Terminal mail client
 
     # Misc Tools
-    pls # Collaborative shell command syntax fixer
     sherlock # Hunt down social media accounts
-    ox # Terminal hex viewer
-
-    # Fish Shell Plugins
-    fishPlugins.fzf # Fish integration for fzf
-    fishPlugins.git-abbr # Git abbreviations for fish
-    fishPlugins.forgit # Interactive git commands for fish
 
     # GUI Apps
+    maccy # Clipboard manager
     # wezterm # WezTerm Terminal Emulator
     # arc-browser # Arc Browser
     # warp-terminal # Warp Terminal
     # raycast # Raycast
 
+    # Fish Shell Plugins
+    fishPlugins.forgit # Interactive git commands for fish
+    fishPlugins.sponge # Fish integration for sponge
+    fishPlugins.colored-man-pages
+    fishPlugins.gruvbox
+    fishPlugins.foreign-env
+    fishPlugins.fzf-fish
   ];
 
   # This value determines the Home Manager release that your
@@ -103,6 +111,61 @@
   #   PATH = "$PATH:/Users/raikusy/.nix-profile/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/per-user/raikusy/profile/bin";
   # };
 
+  # home.file = {
+  #   # Add configurations one by one as you create them
+
+  #   # Example: Once you have fish config:
+  #   # ".config/fish" = {
+  #   #   source = ./config/fish;
+  #   #   recursive = true;
+  #   # };
+
+  #   # Example: Once you have starship config:
+  #   ".config/starship.toml" = {
+  #     source = ./config/starship/starship.toml;
+  #   };
+
+  #   # Git config (if you want to manage beyond what git program module provides)
+  #   ".gitconfig" = {
+  #     source = ./config/git/gitconfig;
+  #   };
+
+  #   # Add others as you create them
+  # };
+
+  # set a variable with value "/run/current-system"
+
+  home.sessionVariables = {
+    HOME = "/Users/${config.home.username}";
+    EDITOR = "cursor";
+    WORK = "${config.home.homeDirectory}/workspace";
+    NIX_RUN_CS = "/run/current-system";
+    NIX_PROFILE = "${config.home.sessionVariables.NIX_RUN_CS}/etc/profiles/per-user/${config.home.username}";
+    NODE_OPTIONS = "--max-old-space-size=8192";
+    BUN_INSTALL = "${config.home.homeDirectory}/.bun";
+    VOLTA_HOME = "${config.home.homeDirectory}/.volta";
+    GEM_HOME = "${config.home.homeDirectory}/.gem";
+    DENO_INSTALL = "${config.home.homeDirectory}/.deno";
+  };
+
+  home.sessionPath = [
+    "${config.home.sessionVariables.NIX_RUN_CS}/sw/bin"
+    "${config.home.homeDirectory}/.nix-profile/bin"
+    "${config.home.homeDirectory}/.local/bin"
+    "${config.home.homeDirectory}/.gem/bin"
+    "${config.home.homeDirectory}/.volta/bin"
+    "${config.home.homeDirectory}/.deno/bin"
+    "${config.home.homeDirectory}/.bun/bin"
+    "${config.home.homeDirectory}/bin"
+  ];
+
+  home.file = {
+    ".nix-profile" = {
+      source = "${config.home.sessionVariables.NIX_PROFILE}";
+      recursive = true;
+    };
+  };
+
   programs = {
     # Let Home Manager install and manage itself.
     home-manager = {
@@ -114,64 +177,105 @@
       syntaxHighlighting.enable = true;
     };
 
+    # git = {
+    #   enable = true;
+    # };
+
     fish = {
       enable = true;
 
-      # Environment variables
+      shellAbbrs = {
+        npu = "nix-prefetch-url";
+        nx = "nix --extra-experimental-features 'nix-command flakes'";
+      };
+
       shellInit = ''
-        # Universal exports
-        set --universal --export ME (whoami)
-        set --universal --export HOME /Users/$ME
-
-        # Project related
-        set --global --export WORK $HOME/workspace
-        set --global --export EDITOR cursor
-
-        # Homebrew
-        set --global --export HOMEBREW_PREFIX /opt/homebrew
-        set --global --export HOMEBREW_CELLAR /opt/homebrew/Cellar
-        set --global --export HOMEBREW_REPOSITORY /opt/homebrew
-
-        # Package managers
-        set --global --export GEM_HOME "$HOME/.gem"
-        set --global --export DENO_INSTALL $HOME/.deno
-        set --global --export NODE_OPTIONS "--max-old-space-size=8192"
-        set --global --export BUN_INSTALL "$HOME/.bun"
-        set --global --export VOLTA_HOME "$HOME/.volta"
-        set --global --export NIX_SW /run/current-system/sw
-        set --global --export NIX_PROFILE /etc/profiles/per-user/$ME
-
-
-        # Path modifications
-        fish_add_path --global --move --path /opt/homebrew/bin /opt/homebrew/sbin
-        fish_add_path $NIX_SW/bin
-        fish_add_path $HOME/.nix-profile/bin
-        fish_add_path $HOME/.local/bin
-        fish_add_path $HOME/.
-      '';
-
-      # Interactive shell initialization
-      interactiveShellInit = ''
-        # Initialize tools
+        fh completion fish | source
         eval "$(/opt/homebrew/bin/brew shellenv)"
       '';
-    };
-
-    git = {
-      enable = true;
-      userName = "raikusy";
-      userEmail = "xenax.rakibul@gmail.com";
-      ignores = [
-        "**/.idea/"
-        "**/.direnv/"
-        "**/.DS_Store"
+      plugins = [
+        {
+          name = "osx";
+          src = pkgs.fetchFromGitHub {
+            owner = "oh-my-fish";
+            repo = "plugin-osx";
+            rev = "master";
+            sha256 = "sha256-jSUIk3ewM6QnfoAtp16l96N1TlX6vR0d99dvEH53Xgw=";
+          };
+        }
+        {
+          name = "grc";
+          src = pkgs.fetchFromGitHub {
+            owner = "oh-my-fish";
+            repo = "plugin-grc";
+            rev = "master";
+            sha256 = "sha256-NQa12L0zlEz2EJjMDhWUhw5cz/zcFokjuCK5ZofTn+Q=";
+          };
+        }
+        {
+          name = "fisher";
+          src = pkgs.fetchFromGitHub {
+            owner = "jorgebucaran";
+            repo = "fisher";
+            rev = "master";
+            sha256 = "sha256-pR5RKU+zIb7CS0Y6vjx2QIZ8Iu/3ojRfAcAdjCOxl1U=";
+          };
+        }
+        {
+          name = "sudope";
+          src = pkgs.fetchFromGitHub {
+            owner = "oh-my-fish";
+            repo = "plugin-sudope";
+            rev = "master";
+            sha256 = "sha256-pD4rNuqg6TG22L9m8425CO2iqcYm8JaAEXIVa0H/v/U=";
+          };
+        }
+        {
+          name = "replay.fish";
+          src = pkgs.fetchFromGitHub {
+            owner = "jorgebucaran";
+            repo = "replay.fish";
+            rev = "master";
+            sha256 = "sha256-TzQ97h9tBRUg+A7DSKeTBWLQuThicbu19DHMwkmUXdg=";
+          };
+        }
+        {
+          name = "gitnow";
+          src = pkgs.fetchFromGitHub {
+            owner = "joseluisq";
+            repo = "gitnow";
+            rev = "master";
+            sha256 = "sha256-PuorwmaZAeG6aNWX4sUTBIE+NMdn1iWeea3rJ2RhqRQ=";
+          };
+        }
+        {
+          name = "projectdo";
+          src = pkgs.fetchFromGitHub {
+            owner = "paldepind";
+            repo = "projectdo";
+            rev = "master";
+            sha256 = "sha256-j8wR+s1cMVMcNYXcVxmSf14UuHsRNq112jrMmevN9Dg=";
+          };
+        }
+        {
+          name = "fish-abbreviation-tips";
+          src = pkgs.fetchFromGitHub {
+            owner = "gazorby";
+            repo = "fish-abbreviation-tips";
+            rev = "master";
+            sha256 = "sha256-F1t81VliD+v6WEWqj1c1ehFBXzqLyumx5vV46s/FZRU=";
+          };
+        }
+        {
+          name = "fish-git-abbr";
+          src = pkgs.fetchFromGitHub {
+            owner = "lewisacidic";
+            repo = "fish-git-abbr";
+            rev = "master";
+            sha256 = "sha256-6z3Wr2t8CP85xVEp6UCYaM2KC9PX4MDyx19f/wjHkb0=";
+          };
+        }
       ];
-      extraConfig = {
-        pull = {
-          ff = "only";
-        };
-        init.defaultBranch = "main";
-      };
     };
 
     starship = {
@@ -192,6 +296,12 @@
       enableBashIntegration = true;
       enableFishIntegration = true;
       enableZshIntegration = true;
+      git = true;
+      icons = true;
+      extraOptions = [
+        "--group-directories-first"
+        "--header"
+      ];
     };
 
     fzf = {
@@ -224,25 +334,10 @@
     };
   };
 
-  home.file = {
-    # Add configurations one by one as you create them
-
-    # Example: Once you have fish config:
-    ".config/fish" = {
-      source = ./config/fish;
-      recursive = true;
-    };
-
-    # Example: Once you have starship config:
-    ".config/starship.toml" = {
-      source = ./config/starship/starship.toml;
-    };
-
-    # Git config (if you want to manage beyond what git program module provides)
-    ".gitconfig" = {
-      source = ./config/git/gitconfig;
-    };
-
-    # Add others as you create them
+  xdg.configFile = {
+    "starship.toml".source = ./config/starship/starship.toml;
+    "git/config".source = ./config/git/gitconfig;
+    "fish/functions/dco.fish".source = ./config/fish/functions/dco.fish;
+    "fish/conf.d/99-custom-abbr.fish".source = ./config/fish/conf.d/99-custom-abbr.fish;
   };
 }

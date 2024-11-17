@@ -1,17 +1,12 @@
-{ pkgs, self, ... }:
+{ self, ... }:
 {
-  environment.systemPackages = with pkgs; [
-    # Add some essential packages
-    coreutils
-    curl
-    git
-  ];
+  environment.systemPackages = [ ];
 
   # Make sure the nix daemon always runs
   services.nix-daemon.enable = true;
 
-  # Necessary for using flakes on this system.
   nix.settings = {
+    # Necessary for using flakes on this system.
     experimental-features = "nix-command flakes";
     trusted-users = [
       "root"
