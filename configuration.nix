@@ -16,6 +16,11 @@
     use-xdg-base-directories = true;
     accept-flake-config = true;
     sandbox = false;
+    allowed-users = [ "@wheel" ];
+    trusted-substituters = [
+      "https://cache.nixos.org"
+      "https://nix-community.cachix.org"
+    ];
   };
 
   # Set Git commit hash for darwin-version.

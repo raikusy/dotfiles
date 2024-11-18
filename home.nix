@@ -1,6 +1,5 @@
 {
   pkgs,
-  self,
   config,
   ...
 }:
@@ -184,15 +183,50 @@
     fish = {
       enable = true;
 
-      shellAbbrs = {
-        npu = "nix-prefetch-url";
-        nx = "nix --extra-experimental-features 'nix-command flakes'";
+      # Add useful shell functions
+      functions = {
+        fish_greeting = "fastfetch"; # Disable greeting
+        # Add more custom functions here
+        dco = ''
+          if type -q docker compose
+            docker compose $argv
+          else if type -q docker-compose
+            docker-compose $argv
+          else
+            echo "docker compose or docker-compose not found"
+            echo "Please install docker compose"
+            echo "  \`brew install docker-compose\`"
+          end
+        '';
       };
 
-      shellInit = ''
+      # Add more useful shell abbreviations
+      shellAbbrs = {
+        # Existing abbreviations
+        npu = "nix-prefetch-url";
+        nx = "nix --extra-experimental-features 'nix-command flakes'";
+
+        # Additional useful ones
+        drs = "darwin-rebuild switch";
+        nfu = "nix flake update";
+        nfui = "nix flake update --commit-lock-file";
+      };
+
+      # Add environment variables in a more organized way
+      interactiveShellInit = ''
+        # Existing initialization
         fh completion fish | source
         eval "$(/opt/homebrew/bin/brew shellenv)"
+
+        # Set fish colors to match your theme
+        set -U fish_color_command blue
+        set -U fish_color_param cyan
+        set -U fish_color_error red
+
+        # Additional useful settings
+        set -U fish_features qmark-noglob
       '';
+
       plugins = [
         {
           name = "osx";
@@ -301,6 +335,12 @@
       extraOptions = [
         "--group-directories-first"
         "--header"
+        "--octal-permissions"
+        "--classify=always"
+        "--color=always"
+        "--sort=modified"
+        "--sort=type"
+        "--git-repos-no-status"
       ];
     };
 
@@ -332,12 +372,58 @@
       enableBashIntegration = true;
       enableZshIntegration = true;
     };
+
+    git = {
+      enable = true;
+      userName = "Rakibul Hasan";
+      userEmail = "xenax.rakibul@gmail.com";
+
+      extraConfig = {
+        init.defaultBranch = "main";
+        pull.ff = "false";
+        pull.rebase = true;
+        rebase.autoStash = true;
+        core = {
+          editor = "cursor";
+          autocrlf = "input";
+          whitespace = "trailing-space,space-before-tab";
+        };
+        gpg = {
+          format = "ssh";
+        };
+        "gpg \"ssh\"" = {
+          program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+        };
+        commit.gpgsign = true;
+        alias = {
+          up = "pull --rebase --autostash";
+        };
+        credential = {
+          helper = "!gh auth git-credential";
+        };
+      };
+    };
+
+    tmux = {
+      enable = true;
+      shortcut = "a";
+      terminal = "screen-256color";
+      baseIndex = 1;
+    };
+
+    gh = {
+      enable = true;
+      settings = {
+        git_protocol = "ssh";
+        editor = "cursor";
+      };
+    };
   };
 
   xdg.configFile = {
     "starship.toml".source = ./config/starship/starship.toml;
     "git/config".source = ./config/git/gitconfig;
-    "fish/functions/dco.fish".source = ./config/fish/functions/dco.fish;
+    # "fish/functions/dco.fish".source = ./config/fish/functions/dco.fish;
     "fish/conf.d/99-custom-abbr.fish".source = ./config/fish/conf.d/99-custom-abbr.fish;
   };
 }

@@ -47,3 +47,4 @@ abbr -a -- mifc 'micro ~/.config/fish/config.fish'
 abbr -a -- mizc 'micro ~/.zshrc'
 abbr -a -- srcf 'source ~/.config/fish/config.fish'
 abbr -a -- srcz 'source ~/.zshrc'
+abbr -a -- spf superfile

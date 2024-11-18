@@ -27,26 +27,18 @@
     {
       darwinConfigurations.raikusy = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
+
         modules = [
-          determinate.darwinModules.default
-          # (
-          #   { pkgs, ... }:
-          #   {
-          #     imports = [
-          #       nix.darwinModules.default
-          #     ];
-          #     # the rest of your configuration
-
-          #   }
-          # )
-
-          # Pass self as a module argument
           {
             _module.args = {
               inherit self;
             };
           }
+          determinate.darwinModules.default
           nix-homebrew.darwinModules.nix-homebrew
+          home-manager.darwinModules.home-manager
+
+          # Pass self as a module argument
           {
             nix-homebrew = {
               # Install Homebrew under the default prefix
@@ -63,7 +55,6 @@
             };
           }
           ./configuration.nix
-          home-manager.darwinModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
