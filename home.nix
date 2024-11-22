@@ -117,7 +117,7 @@
   };
 
   home.sessionPath = [
-    "${config.home.homeDirectory}/.nix-profile/bin"
+    # "${config.home.homeDirectory}/.nix-profile/bin"
     "${config.home.homeDirectory}/.local/bin"
     "${config.home.homeDirectory}/.gem/bin"
     "${config.home.homeDirectory}/.volta/bin"
@@ -316,7 +316,7 @@
     git = {
       enable = true;
       userName = "raikusy";
-      userEmail = "ping@raikusy.dev";
+      userEmail = "xenax.rakibul@gmail.com";
       signing = {
         key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILi1cbiFBIMivXJpLMBS8w4KsOkPpdMEUd1HW5vzWG5G";
       };
