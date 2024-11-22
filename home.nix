@@ -43,6 +43,7 @@
     nixd # Nix language server
     nil # Nix language server
     nixfmt-rfc-style # Nix code formatter
+    alejandra # Nix code formatter
     fh # Nix package manager
     devenv # Development environments
     gh # GitHub CLI
@@ -334,9 +335,8 @@
         };
         "gpg \"ssh\"" = {
           program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
-          allowed
         };
-        commit.gpgsign = true;
+        commit.gpgSign = true;
         alias = {
           up = "pull --rebase --autostash";
         };

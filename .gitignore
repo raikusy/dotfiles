@@ -178,3 +178,12 @@ temp/
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,node,linux
 .aider*
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
