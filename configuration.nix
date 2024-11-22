@@ -1,6 +1,9 @@
-{ self, ... }:
 {
-  environment.systemPackages = [ ];
+  self,
+  pkgs,
+  ...
+}: {
+  environment.systemPackages = [];
 
   # Make sure the nix daemon always runs
   services.nix-daemon.enable = true;
@@ -16,7 +19,7 @@
     use-xdg-base-directories = true;
     accept-flake-config = true;
     sandbox = false;
-    allowed-users = [ "@wheel" ];
+    allowed-users = ["@wheel"];
     trusted-substituters = [
       "https://cache.nixos.org"
       "https://nix-community.cachix.org"

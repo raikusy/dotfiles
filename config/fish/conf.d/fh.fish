@@ -1,0 +1,1 @@
+fh completion fish | source

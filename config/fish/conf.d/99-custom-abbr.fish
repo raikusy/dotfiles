@@ -36,15 +36,27 @@ abbr -a -- px pnpx
 
 # Nix
 abbr -a -- nx 'nix --extra-experimental-features "nix-command flakes"'
-abbr -a -- nxrd 'nix --extra-experimental-features "nix-command flakes" run nix-darwin'
-abbr -a -- dr 'darwin-rebuild switch --flake ~/dotfiles --impure'
+abbr -a -- nxd 'nix --extra-experimental-features "nix-command flakes" run nix-darwin'
+abbr -a -- dr darwin-rebuild
+abbr -a -- drs 'darwin-rebuild switch --flake ~/dotfiles --impure'
+abbr -a -- drb 'darwin-rebuild build --flake ~/dotfiles --impure'
+abbr -a -- drc 'darwin-rebuild check --flake ~/dotfiles --impure'
+abbr -a -- npu nix-prefetch-url
+abbr -a -- nfu 'nix flake update'
+abbr -a -- nfui 'nix flake update --commit-lock-file'
+
+# Directories
+abbr -a --position anywhere -- ~df '~/dotfiles'
+abbr -a --position anywhere -- ~w '~/work'
+abbr -a --position anywhere -- ~d '~/Desktop'
+abbr -a --position anywhere -- ~dd '~/Downloads'
 
 # Common
 abbr -a -- :c clear
 abbr -a -- :q exit
 abbr -a -- :m micro
-abbr -a -- mifc 'micro ~/.config/fish/config.fish'
-abbr -a -- mizc 'micro ~/.zshrc'
-abbr -a -- srcf 'source ~/.config/fish/config.fish'
-abbr -a -- srcz 'source ~/.zshrc'
-abbr -a -- spf superfile
+abbr -a -- :sf superfile
+abbr -a -- :cr cursor
+
+# Wezterm
+abbr -a -- wt wezterm

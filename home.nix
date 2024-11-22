@@ -2,8 +2,7 @@
   pkgs,
   config,
   ...
-}:
-{
+}: {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   xdg.enable = true;
@@ -16,9 +15,11 @@
     # Shell and Core Utils
     zsh # Extended Bourne Shell with many improvements
     fish # Friendly Interactive Shell
-    coreutils # GNU Core Utilities
     starship # Cross-shell prompt
     direnv # Environment switcher
+    grc # Colorize terminal output
+    lazygit # Git UI
+    tmux # Tmux
 
     # Text Editors
     neovim # Hyperextensible Vim-based text editor
@@ -40,6 +41,7 @@
     # Development Tools
     git # Version control system
     nixd # Nix language server
+    nil # Nix language server
     nixfmt-rfc-style # Nix code formatter
     fh # Nix package manager
     devenv # Development environments
@@ -47,7 +49,6 @@
     git-credential-manager # Git credential manager
 
     # Package Managers
-    fnm # Fast Node.js version manager
     volta # JavaScript tool manager
     cargo # Rust package manager
     cargo-update # Update Rust packages
@@ -68,31 +69,19 @@
     wget # Network file retriever
 
     # System Monitoring
-    htop # Interactive process viewer
     mactop # macOS system monitor
     topgrade # System upgrade tool
     fastfetch # Fast fetch
-
-    # Email
-    neomutt # Terminal mail client
 
     # Misc Tools
     sherlock # Hunt down social media accounts
 
     # GUI Apps
     maccy # Clipboard manager
-    # wezterm # WezTerm Terminal Emulator
+    wezterm # WezTerm Terminal Emulator
     # arc-browser # Arc Browser
     # warp-terminal # Warp Terminal
     # raycast # Raycast
-
-    # Fish Shell Plugins
-    fishPlugins.forgit # Interactive git commands for fish
-    fishPlugins.sponge # Fish integration for sponge
-    fishPlugins.colored-man-pages
-    fishPlugins.gruvbox
-    fishPlugins.foreign-env
-    fishPlugins.fzf-fish
   ];
 
   # This value determines the Home Manager release that your
@@ -105,41 +94,20 @@
   # changes in each release.
   home.stateVersion = "24.05";
 
-  # add home-manager installs in $PATH
-  # home.sessionVariables = {
-  #   PATH = "$PATH:/Users/raikusy/.nix-profile/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/per-user/raikusy/profile/bin";
-  # };
-
-  # home.file = {
-  #   # Add configurations one by one as you create them
-
-  #   # Example: Once you have fish config:
-  #   # ".config/fish" = {
-  #   #   source = ./config/fish;
-  #   #   recursive = true;
-  #   # };
-
-  #   # Example: Once you have starship config:
-  #   ".config/starship.toml" = {
-  #     source = ./config/starship/starship.toml;
-  #   };
-
-  #   # Git config (if you want to manage beyond what git program module provides)
-  #   ".gitconfig" = {
-  #     source = ./config/git/gitconfig;
-  #   };
-
-  #   # Add others as you create them
-  # };
-
-  # set a variable with value "/run/current-system"
+  home.file = {
+    ".nix-profile" = {
+      source = "${config.home.sessionVariables.USER_PROFILE}";
+      recursive = true;
+    };
+  };
 
   home.sessionVariables = {
     HOME = "/Users/${config.home.username}";
+    DOTFILES = "${config.home.homeDirectory}/dotfiles";
     EDITOR = "cursor";
     WORK = "${config.home.homeDirectory}/workspace";
-    NIX_RUN_CS = "/run/current-system";
-    NIX_PROFILE = "${config.home.sessionVariables.NIX_RUN_CS}/etc/profiles/per-user/${config.home.username}";
+    USER_PROFILE = "/etc/static/profiles/per-user/${config.home.username}";
+    NIX_PROFILE = "${config.home.homeDirectory}/.nix-profile";
     NODE_OPTIONS = "--max-old-space-size=8192";
     BUN_INSTALL = "${config.home.homeDirectory}/.bun";
     VOLTA_HOME = "${config.home.homeDirectory}/.volta";
@@ -148,7 +116,6 @@
   };
 
   home.sessionPath = [
-    "${config.home.sessionVariables.NIX_RUN_CS}/sw/bin"
     "${config.home.homeDirectory}/.nix-profile/bin"
     "${config.home.homeDirectory}/.local/bin"
     "${config.home.homeDirectory}/.gem/bin"
@@ -156,14 +123,8 @@
     "${config.home.homeDirectory}/.deno/bin"
     "${config.home.homeDirectory}/.bun/bin"
     "${config.home.homeDirectory}/bin"
+    "/run/current-system/sw/bin"
   ];
-
-  home.file = {
-    ".nix-profile" = {
-      source = "${config.home.sessionVariables.NIX_PROFILE}";
-      recursive = true;
-    };
-  };
 
   programs = {
     # Let Home Manager install and manage itself.
@@ -173,12 +134,23 @@
 
     zsh = {
       enable = true;
+      antidote = {
+        enable = true;
+        plugins = [
+          "zsh-users/zsh-autosuggestions"
+          "zsh-users/zsh-syntax-highlighting"
+          "zsh-users/zsh-completions"
+          "zsh-users/zsh-history-substring-search"
+        ];
+      };
+      oh-my-zsh = {
+        enable = true;
+        plugins = [
+          "git"
+        ];
+      };
       syntaxHighlighting.enable = true;
     };
-
-    # git = {
-    #   enable = true;
-    # };
 
     fish = {
       enable = true;
@@ -187,45 +159,12 @@
       functions = {
         fish_greeting = "fastfetch"; # Disable greeting
         # Add more custom functions here
-        dco = ''
-          if type -q docker compose
-            docker compose $argv
-          else if type -q docker-compose
-            docker-compose $argv
-          else
-            echo "docker compose or docker-compose not found"
-            echo "Please install docker compose"
-            echo "  \`brew install docker-compose\`"
-          end
-        '';
-      };
-
-      # Add more useful shell abbreviations
-      shellAbbrs = {
-        # Existing abbreviations
-        npu = "nix-prefetch-url";
-        nx = "nix --extra-experimental-features 'nix-command flakes'";
-
-        # Additional useful ones
-        drs = "darwin-rebuild switch";
-        nfu = "nix flake update";
-        nfui = "nix flake update --commit-lock-file";
+        dco = builtins.readFile "${config.home.sessionVariables.DOTFILES}/config/fish/functions/dco.fish";
+        cat = builtins.readFile "${config.home.sessionVariables.DOTFILES}/config/fish/functions/cat.fish";
       };
 
       # Add environment variables in a more organized way
-      interactiveShellInit = ''
-        # Existing initialization
-        fh completion fish | source
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-
-        # Set fish colors to match your theme
-        set -U fish_color_command blue
-        set -U fish_color_param cyan
-        set -U fish_color_error red
-
-        # Additional useful settings
-        set -U fish_features qmark-noglob
-      '';
+      interactiveShellInit = builtins.readFile "${config.home.sessionVariables.DOTFILES}/config/fish/conf.d/brew.fish" + builtins.readFile "${config.home.sessionVariables.DOTFILES}/config/fish/conf.d/fh.fish" + builtins.readFile "${config.home.sessionVariables.DOTFILES}/config/fish/conf.d/99-custom-abbr.fish";
 
       plugins = [
         {
@@ -375,9 +314,11 @@
 
     git = {
       enable = true;
-      userName = "Rakibul Hasan";
-      userEmail = "xenax.rakibul@gmail.com";
-
+      userName = "raikusy";
+      userEmail = "ping@raikusy.dev";
+      signing = {
+        key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILi1cbiFBIMivXJpLMBS8w4KsOkPpdMEUd1HW5vzWG5G";
+      };
       extraConfig = {
         init.defaultBranch = "main";
         pull.ff = "false";
@@ -393,6 +334,7 @@
         };
         "gpg \"ssh\"" = {
           program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+          allowed
         };
         commit.gpgsign = true;
         alias = {
@@ -411,19 +353,17 @@
       baseIndex = 1;
     };
 
-    gh = {
+    wezterm = {
       enable = true;
-      settings = {
-        git_protocol = "ssh";
-        editor = "cursor";
-      };
+      extraConfig = builtins.readFile "${config.home.sessionVariables.DOTFILES}/config/wezterm/wezterm.lua";
     };
   };
 
   xdg.configFile = {
-    "starship.toml".source = ./config/starship/starship.toml;
-    "git/config".source = ./config/git/gitconfig;
+    "starship.toml".source = "${config.home.sessionVariables.DOTFILES}/config/starship/starship.toml";
+    # "wezterm/wezterm.lua".source = ./config/wezterm/wezterm.lua;
+    # "git/config".source = ./config/git/config;
     # "fish/functions/dco.fish".source = ./config/fish/functions/dco.fish;
-    "fish/conf.d/99-custom-abbr.fish".source = ./config/fish/conf.d/99-custom-abbr.fish;
+    # "fish/conf.d/99-custom-abbr.fish".source = ./config/fish/conf.d/99-custom-abbr.fish;
   };
 }
