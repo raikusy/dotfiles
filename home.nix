@@ -114,6 +114,11 @@
     VOLTA_HOME = "${config.home.homeDirectory}/.volta";
     GEM_HOME = "${config.home.homeDirectory}/.gem";
     DENO_INSTALL = "${config.home.homeDirectory}/.deno";
+    DOCKER_BUILDKIT = "1";
+    COMPOSE_DOCKER_CLI_BUILD = "1";
+    HOMEBREW_NO_ANALYTICS = "1";
+    COLORTERM = "truecolor";
+    TERM = "xterm-256color";
   };
 
   home.sessionPath = [
@@ -124,7 +129,10 @@
     "${config.home.homeDirectory}/.deno/bin"
     "${config.home.homeDirectory}/.bun/bin"
     "${config.home.homeDirectory}/bin"
+    "${config.xdg.stateHome}/nix/profile/bin"
+    "/etc/profiles/per-user/${config.home.username}/bin"
     "/run/current-system/sw/bin"
+    "/nix/var/nix/profiles/default/bin"
   ];
 
   programs = {
@@ -165,8 +173,8 @@
       };
 
       # Add environment variables in a more organized way
-      interactiveShellInit = builtins.readFile "${config.home.sessionVariables.DOTFILES}/config/fish/conf.d/brew.fish" + builtins.readFile "${config.home.sessionVariables.DOTFILES}/config/fish/conf.d/fh.fish" + builtins.readFile "${config.home.sessionVariables.DOTFILES}/config/fish/conf.d/99-custom-abbr.fish";
-
+      # interactiveShellInit = builtins.readFile "${config.home.sessionVariables.DOTFILES}/config/fish/conf.d/99_custom_init.fish";
+      loginShellInit = builtins.readFile "${config.home.sessionVariables.DOTFILES}/config/fish/conf.d/99_custom_init.fish";
       plugins = [
         {
           name = "osx";
@@ -178,32 +186,40 @@
           };
         }
         {
-          name = "grc";
-          src = pkgs.fetchFromGitHub {
-            owner = "oh-my-fish";
-            repo = "plugin-grc";
-            rev = "master";
-            sha256 = "sha256-NQa12L0zlEz2EJjMDhWUhw5cz/zcFokjuCK5ZofTn+Q=";
-          };
+          name = "fishplugin-grc";
+          src = pkgs.fishPlugins.grc.src;
         }
-        {
-          name = "fisher";
-          src = pkgs.fetchFromGitHub {
-            owner = "jorgebucaran";
-            repo = "fisher";
-            rev = "master";
-            sha256 = "sha256-pR5RKU+zIb7CS0Y6vjx2QIZ8Iu/3ojRfAcAdjCOxl1U=";
-          };
-        }
-        {
-          name = "sudope";
-          src = pkgs.fetchFromGitHub {
-            owner = "oh-my-fish";
-            repo = "plugin-sudope";
-            rev = "master";
-            sha256 = "sha256-pD4rNuqg6TG22L9m8425CO2iqcYm8JaAEXIVa0H/v/U=";
-          };
-        }
+        # {
+        #   name = "grc";
+        #   src = pkgs.fetchFromGitHub {
+        #     owner = "oh-my-fish";
+        #     repo = "plugin-grc";
+        #     rev = "master";
+        #     sha256 = "sha256-NQa12L0zlEz2EJjMDhWUhw5cz/zcFokjuCK5ZofTn+Q=";
+        #   };
+        # }
+        # {
+        #   name = "fisher";
+        #   src = pkgs.fishPlugins.fisher.src;
+        # }
+        # {
+        #   name = "fisher";
+        #   src = pkgs.fetchFromGitHub {
+        #     owner = "jorgebucaran";
+        #     repo = "fisher";
+        #     rev = "master";
+        #     sha256 = "sha256-pR5RKU+zIb7CS0Y6vjx2QIZ8Iu/3ojRfAcAdjCOxl1U=";
+        #   };
+        # }
+        # {
+        #   name = "sudope";
+        #   src = pkgs.fetchFromGitHub {
+        #     owner = "oh-my-fish";
+        #     repo = "plugin-sudope";
+        #     rev = "master";
+        #     sha256 = "sha256-pD4rNuqg6TG22L9m8425CO2iqcYm8JaAEXIVa0H/v/U=";
+        #   };
+        # }
         {
           name = "replay.fish";
           src = pkgs.fetchFromGitHub {
@@ -222,15 +238,15 @@
             sha256 = "sha256-PuorwmaZAeG6aNWX4sUTBIE+NMdn1iWeea3rJ2RhqRQ=";
           };
         }
-        {
-          name = "projectdo";
-          src = pkgs.fetchFromGitHub {
-            owner = "paldepind";
-            repo = "projectdo";
-            rev = "master";
-            sha256 = "sha256-j8wR+s1cMVMcNYXcVxmSf14UuHsRNq112jrMmevN9Dg=";
-          };
-        }
+        # {
+        #   name = "projectdo";
+        #   src = pkgs.fetchFromGitHub {
+        #     owner = "paldepind";
+        #     repo = "projectdo";
+        #     rev = "master";
+        #     sha256 = "sha256-j8wR+s1cMVMcNYXcVxmSf14UuHsRNq112jrMmevN9Dg=";
+        #   };
+        # }
         {
           name = "fish-abbreviation-tips";
           src = pkgs.fetchFromGitHub {
@@ -348,9 +364,35 @@
 
     tmux = {
       enable = true;
-      shortcut = "a";
+      clock24 = true;
+      keyMode = "vi";
+      customPaneNavigationAndResize = true;
       terminal = "screen-256color";
-      baseIndex = 1;
+      plugins = with pkgs.tmuxPlugins; [
+        sensible
+        yank
+        resurrect
+        continuum
+        {
+          plugin = dracula;
+          extraConfig = ''
+            set -g @dracula-show-battery false
+            set -g @dracula-show-powerline true
+            set -g @dracula-refresh-rate 10
+          '';
+        }
+      ];
+      extraConfig = ''
+        # Enable mouse support
+        set -g mouse on
+
+        # Start windows and panes at 1, not 0
+        set -g base-index 1
+        setw -g pane-base-index 1
+
+        # Automatically renumber windows
+        set -g renumber-windows on
+      '';
     };
 
     wezterm = {

@@ -92,11 +92,15 @@ config.colors = {
 config.native_macos_fullscreen_mode = true
 config.pane_focus_follows_mouse = true
 
-config.default_prog = { '/opt/homebrew/bin/fish', '-l' }
+config.default_prog = { '/Users/raikusy/.nix-profile/bin/fish', '-l' }
 config.launch_menu = {
   {
     label = 'fish',
-    args = { '/opt/homebrew/bin/fish', '-l' },
+    args = { '/Users/raikusy/.nix-profile/bin/fish', '-l' },
+  },
+  {
+    label = 'zsh',
+    args = { '/bin/zsh', '-l' },
   },
   {
     label = 'bash',
