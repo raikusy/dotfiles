@@ -21,12 +21,12 @@
 
   outputs = {
     self,
-    nixpkgs,
     determinate,
     nix-darwin,
     home-manager,
     nix-homebrew,
     alejandra,
+    ...
   }: {
     formatter.aarch64-darwin = alejandra;
     darwinConfigurations.raikusy = nix-darwin.lib.darwinSystem {

@@ -13,13 +13,13 @@
 
   home.packages = with pkgs; [
     # Shell and Core Utils
-    zsh # Extended Bourne Shell with many improvements
+    grc # Colorize terminal output
     fish # Friendly Interactive Shell
     starship # Cross-shell prompt
     direnv # Environment switcher
-    grc # Colorize terminal output
     lazygit # Git UI
     tmux # Tmux
+    rip2 # Better rm
 
     # Text Editors
     neovim # Hyperextensible Vim-based text editor
@@ -40,12 +40,9 @@
 
     # Development Tools
     git # Version control system
-    nixd # Nix language server
     nil # Nix language server
-    nixfmt-rfc-style # Nix code formatter
     alejandra # Nix code formatter
     fh # Nix package manager
-    devenv # Development environments
     gh # GitHub CLI
     git-credential-manager # Git credential manager
 
@@ -104,7 +101,6 @@
   };
 
   home.sessionVariables = {
-    HOME = "/Users/${config.home.username}";
     DOTFILES = "${config.home.homeDirectory}/dotfiles";
     EDITOR = "cursor";
     WORK = "${config.home.homeDirectory}/workspace";
@@ -123,23 +119,30 @@
   };
 
   home.sessionPath = [
-    # "${config.home.homeDirectory}/.nix-profile/bin"
     "${config.home.homeDirectory}/.local/bin"
     "${config.home.homeDirectory}/.gem/bin"
     "${config.home.homeDirectory}/.volta/bin"
     "${config.home.homeDirectory}/.deno/bin"
     "${config.home.homeDirectory}/.bun/bin"
     "${config.home.homeDirectory}/bin"
+    "${config.home.homeDirectory}/.nix-profile/bin"
     "${config.xdg.stateHome}/nix/profile/bin"
-    "/etc/profiles/per-user/${config.home.username}/bin"
     "/run/current-system/sw/bin"
     "/nix/var/nix/profiles/default/bin"
+    "/Applications/Windsurf.app/Contents/Resources/app/bin"
   ];
 
   programs = {
     # Let Home Manager install and manage itself.
     home-manager = {
       enable = true;
+    };
+
+    bun = {
+      enable = true;
+      settings = {
+        smol = true;
+      };
     };
 
     zsh = {
@@ -167,66 +170,39 @@
 
       # Add useful shell functions
       functions = {
-        fish_greeting = "fastfetch"; # Disable greeting
+        fish_greeting = ""; # Disable greeting
         # Add more custom functions here
-        dco = builtins.readFile "${config.home.sessionVariables.DOTFILES}/config/fish/functions/dco.fish";
-        cat = builtins.readFile "${config.home.sessionVariables.DOTFILES}/config/fish/functions/cat.fish";
+        dco = builtins.readFile "${config.home.homeDirectory}/dotfiles/config/fish/functions/dco.fish";
+        cat = builtins.readFile "${config.home.homeDirectory}/dotfiles/config/fish/functions/cat.fish";
+        where = ''
+          if test (count $argv) -eq 0
+            echo "Usage: where <command>"
+            return 1
+          end
+
+          type -a $argv
+        '';
       };
 
       # Add environment variables in a more organized way
-      # interactiveShellInit = builtins.readFile "${config.home.sessionVariables.DOTFILES}/config/fish/conf.d/99_custom_init.fish";
-      loginShellInit = builtins.readFile "${config.home.sessionVariables.DOTFILES}/config/fish/conf.d/99_custom_init.fish";
+      # interactiveShellInit = builtins.readFile "${config.home.homeDirectory}/dotfiles/config/fish/conf.d/99_custom_init.fish";
+      loginShellInit = builtins.readFile "${config.home.homeDirectory}/dotfiles/config/fish/conf.d/99_custom_init.fish";
       plugins = [
         {
           name = "osx";
           src = pkgs.fetchFromGitHub {
             owner = "oh-my-fish";
             repo = "plugin-osx";
-            rev = "master";
+            rev = "main";
             sha256 = "sha256-jSUIk3ewM6QnfoAtp16l96N1TlX6vR0d99dvEH53Xgw=";
           };
         }
-        {
-          name = "fishplugin-grc";
-          src = pkgs.fishPlugins.grc.src;
-        }
-        # {
-        #   name = "grc";
-        #   src = pkgs.fetchFromGitHub {
-        #     owner = "oh-my-fish";
-        #     repo = "plugin-grc";
-        #     rev = "master";
-        #     sha256 = "sha256-NQa12L0zlEz2EJjMDhWUhw5cz/zcFokjuCK5ZofTn+Q=";
-        #   };
-        # }
-        # {
-        #   name = "fisher";
-        #   src = pkgs.fishPlugins.fisher.src;
-        # }
-        # {
-        #   name = "fisher";
-        #   src = pkgs.fetchFromGitHub {
-        #     owner = "jorgebucaran";
-        #     repo = "fisher";
-        #     rev = "master";
-        #     sha256 = "sha256-pR5RKU+zIb7CS0Y6vjx2QIZ8Iu/3ojRfAcAdjCOxl1U=";
-        #   };
-        # }
-        # {
-        #   name = "sudope";
-        #   src = pkgs.fetchFromGitHub {
-        #     owner = "oh-my-fish";
-        #     repo = "plugin-sudope";
-        #     rev = "master";
-        #     sha256 = "sha256-pD4rNuqg6TG22L9m8425CO2iqcYm8JaAEXIVa0H/v/U=";
-        #   };
-        # }
         {
           name = "replay.fish";
           src = pkgs.fetchFromGitHub {
             owner = "jorgebucaran";
             repo = "replay.fish";
-            rev = "master";
+            rev = "main";
             sha256 = "sha256-TzQ97h9tBRUg+A7DSKeTBWLQuThicbu19DHMwkmUXdg=";
           };
         }
@@ -235,36 +211,35 @@
           src = pkgs.fetchFromGitHub {
             owner = "joseluisq";
             repo = "gitnow";
-            rev = "master";
+            rev = "main";
             sha256 = "sha256-PuorwmaZAeG6aNWX4sUTBIE+NMdn1iWeea3rJ2RhqRQ=";
           };
         }
+        {
+          name = "colored_man_pages.fish";
+          src = pkgs.fetchFromGitHub {
+            owner = "PatrickF1";
+            repo = "colored_man_pages.fish";
+            rev = "main";
+            sha256 = "sha256-ii9gdBPlC1/P1N9xJzqomrkyDqIdTg+iCg0mwNVq2EU=";
+          };
+        }
         # {
-        #   name = "projectdo";
+        #   name = "fish-abbreviation-tips";
         #   src = pkgs.fetchFromGitHub {
-        #     owner = "paldepind";
-        #     repo = "projectdo";
+        #     owner = "gazorby";
+        #     repo = "fish-abbreviation-tips";
         #     rev = "master";
-        #     sha256 = "sha256-j8wR+s1cMVMcNYXcVxmSf14UuHsRNq112jrMmevN9Dg=";
+        #     sha256 = "sha256-F1t81VliD+v6WEWqj1c1ehFBXzqLyumx5vV46s/FZRU=";
         #   };
         # }
         {
-          name = "fish-abbreviation-tips";
-          src = pkgs.fetchFromGitHub {
-            owner = "gazorby";
-            repo = "fish-abbreviation-tips";
-            rev = "master";
-            sha256 = "sha256-F1t81VliD+v6WEWqj1c1ehFBXzqLyumx5vV46s/FZRU=";
-          };
+          name = "fzf-fish";
+          src = pkgs.fishPlugins.fzf-fish.src;
         }
         {
-          name = "fish-git-abbr";
-          src = pkgs.fetchFromGitHub {
-            owner = "lewisacidic";
-            repo = "fish-git-abbr";
-            rev = "master";
-            sha256 = "sha256-6z3Wr2t8CP85xVEp6UCYaM2KC9PX4MDyx19f/wjHkb0=";
-          };
+          name = "plugin-git";
+          src = pkgs.fishPlugins.plugin-git.src;
         }
       ];
     };
@@ -273,6 +248,7 @@
       enable = true;
       enableZshIntegration = true;
       enableFishIntegration = true;
+      settings = builtins.fromTOML (builtins.readFile "${config.home.homeDirectory}/dotfiles/config/starship/starship.toml");
     };
 
     bat = {
@@ -398,15 +374,15 @@
 
     wezterm = {
       enable = true;
-      extraConfig = builtins.readFile "${config.home.sessionVariables.DOTFILES}/config/wezterm/wezterm.lua";
+      extraConfig = builtins.readFile "${config.home.homeDirectory}/dotfiles/config/wezterm/wezterm.lua";
     };
   };
 
-  xdg.configFile = {
-    "starship.toml".source = "${config.home.sessionVariables.DOTFILES}/config/starship/starship.toml";
-    # "wezterm/wezterm.lua".source = ./config/wezterm/wezterm.lua;
-    # "git/config".source = ./config/git/config;
-    # "fish/functions/dco.fish".source = ./config/fish/functions/dco.fish;
-    # "fish/conf.d/99-custom-abbr.fish".source = ./config/fish/conf.d/99-custom-abbr.fish;
-  };
+  # xdg.configFile = {
+  # "starship.toml".source = "${config.home.homeDirectory}/dotfiles/config/starship/starship.toml";
+  # "wezterm/wezterm.lua".source = ./config/wezterm/wezterm.lua;
+  # "git/config".source = ./config/git/config;
+  # "fish/functions/dco.fish".source = ./config/fish/functions/dco.fish;
+  # "fish/conf.d/99-custom-abbr.fish".source = ./config/fish/conf.d/99-custom-abbr.fish;
+  # };
 }

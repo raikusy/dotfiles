@@ -6,6 +6,18 @@ if test -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish'
 end
 # End Nix
 
+################### Homebrew
+set --global --export HOMEBREW_PREFIX /opt/homebrew
+set --global --export HOMEBREW_CELLAR /opt/homebrew/Cellar
+set --global --export HOMEBREW_REPOSITORY "/opt/homebrew/Library/.homebrew-is-managed-by-nix"
+fish_add_path --global --move --path /opt/homebrew/bin /opt/homebrew/sbin
+if test -n "$MANPATH[1]"
+    set --global --export MANPATH '' $MANPATH
+end
+if not contains /opt/homebrew/share/info $INFOPATH
+    set --global --export INFOPATH /opt/homebrew/share/info $INFOPATH
+end
+
 ################### Nix
 # Essential workaround for clobbered `$PATH` with nix-darwin.
 # Without this, both Nix and Homebrew paths are forced to the end of $PATH.
@@ -17,17 +29,41 @@ end
 #   - /etc/profiles/per-user/$USER/bin # mwb needed if useGlobalPkgs used.
 #
 if test (uname) = Darwin
-    fish_add_path --prepend --global \
+    fish_add_path --prepend --global --move \
+        # /etc/profiles/per-user/$USER/bin \
         $XDG_STATE_HOME/nix/profile/bin \
-        /etc/profiles/per-user/$USER/bin \
         $HOME/.nix-profile/bin \
         /run/current-system/sw/bin \
         /nix/var/nix/profiles/default/bin
 end
 
+################### Windsurf
+fish_add_path --global --move --path /Applications/Windsurf.app/Contents/Resources/app/bin
+
+################### Deno
+fish_add_path --global --move --path $HOME/.deno/bin
+
+################### Bun
+# fish_add_path --global --move --path $HOME/.bun/bin
+
+################### Volta
+fish_add_path --global --move --path $HOME/.volta/bin
+
+################### FlakeHub
 fh completion fish | source
 
-fish_add_path --prepend --global /Applications/Windsurf.app/Contents/Resources/app/bin
+################### rip2
+rip completions fish | source
+
+
+# function where
+#     if test (count $argv) -eq 0
+#         echo "Usage: where <command>"
+#         return 1
+#     end
+
+#     type -a $argv
+# end
 
 # Bun aliases
 abbr -a -- b bun

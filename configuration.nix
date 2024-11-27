@@ -1,8 +1,4 @@
-{
-  self,
-  pkgs,
-  ...
-}: {
+{self, ...}: {
   environment.systemPackages = [];
 
   # Make sure the nix daemon always runs
