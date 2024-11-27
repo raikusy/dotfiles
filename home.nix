@@ -78,8 +78,9 @@
     sherlock # Hunt down social media accounts
 
     # GUI Apps
-    maccy # Clipboard manager
-    wezterm # WezTerm Terminal Emulator
+    # maccy # Clipboard manager
+    # wezterm # WezTerm Terminal Emulator
+    # karabiner-elements # Keyboard customizer
     # arc-browser # Arc Browser
     # warp-terminal # Warp Terminal
     # raycast # Raycast
