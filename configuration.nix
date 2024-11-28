@@ -96,29 +96,31 @@
   # Services configuration
   services = {
     nix-daemon.enable = true;
-    yabai = {
-      enable = true;
-      enableScriptingAddition = true;
-      config = {
-        layout = "bsp";
-        auto_balance = "on";
-        window_placement = "second_child";
-        window_gap = 8;
-      };
-    };
-    skhd = {
-      enable = true;
-      skhdConfig = ''
-        # Toggle window split type
-        alt - e : yabai -m window --toggle split
+    # yabai = {
+    #   enable = true;
+    #   enableScriptingAddition = true;
+    #   config = {
+    #     layout = "bsp";
+    #     auto_balance = "on";
+    #     window_placement = "second_child";
+    #     window_gap = 8;
+    #   };
+    # };
+    # skhd = {
+    #   enable = true;
+    #   skhdConfig = ''
+    #     # Toggle window split type
+    #     alt - e : yabai -m window --toggle split
+    #     alt - f : yabai -m window --toggle float
+    #     alt - t : yabai -m window --toggle native-fullscreen
 
-        # Focus window
-        alt - h : yabai -m window --focus west
-        alt - j : yabai -m window --focus south
-        alt - k : yabai -m window --focus north
-        alt - l : yabai -m window --focus east
-      '';
-    };
+    #     # Focus window
+    #     alt - h : yabai -m window --focus west
+    #     alt - j : yabai -m window --focus south
+    #     alt - k : yabai -m window --focus north
+    #     alt - l : yabai -m window --focus east
+    #   '';
+    # };
   };
 
   # Nix configuration
