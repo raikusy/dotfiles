@@ -20,6 +20,8 @@
     lazygit # Git UI
     tmux # Tmux
     rip2 # Better rm
+    _1password-cli # 1Password CLI
+    just # Justfile runner
 
     # Text Editors
     neovim # Hyperextensible Vim-based text editor
@@ -45,6 +47,11 @@
     fh # Nix package manager
     gh # GitHub CLI
     git-credential-manager # Git credential manager
+    delta # Better git diffs
+    difftastic # Structural diff tool
+    act # Run GitHub Actions locally
+    cocoapods # iOS dependency manager
+    watchman # File watching service
 
     # Package Managers
     volta # JavaScript tool manager
@@ -66,13 +73,35 @@
     curl # Transfer data with URLs
     wget # Network file retriever
 
-    # System Monitoring
+    # macOS Specific
+    m-cli # Swiss Army Knife for macOS
+    mas # Mac App Store CLI
+    xcode-install # Install and update Xcode
+
+    # Cloud & Infrastructure
+    awscli2 # AWS CLI
+
+    # Additional Development Tools
+    fnm # Fast Node Manager
+    go # Go programming language
+
+    # Security Tools
+    age # Modern encryption tool
+    sops # Secrets management
+
+    # System Monitoring & Performance
     mactop # macOS system monitor
     topgrade # System upgrade tool
     fastfetch # Fast fetch
+    bottom # System monitor with nice graphs
+    htop # Interactive process viewer
+    hyperfine # Command-line benchmarking tool
+    bandwhich # Network utilization tool
 
     # Misc Tools
     sherlock # Hunt down social media accounts
+    jq # JSON processor
+    yq # YAML processor
 
     # GUI Apps
     # maccy # Clipboard manager
@@ -116,15 +145,27 @@
     HOMEBREW_NO_ANALYTICS = "1";
     COLORTERM = "truecolor";
     TERM = "xterm-256color";
+    DOCKER_DEFAULT_PLATFORM = "linux/arm64";
+    RUST_TARGET = "aarch64-apple-darwin";
+    GOARCH = "arm64";
+    GOOS = "darwin";
+    CARGO_NET_GIT_FETCH_WITH_CLI = "true";
+    RUSTC_WRAPPER = "sccache";
+    HYPERFINE_MIN_RUNS = "10";
+    WATCHMAN_CONFIG_FILE = "${config.xdg.configHome}/watchman/config.json";
+    KUBECONFIG = "${config.xdg.configHome}/kube/config";
+    GOPATH = "${config.home.homeDirectory}/go";
+    POETRY_HOME = "${config.home.homeDirectory}/.poetry";
+    CARGO_HOME = "${config.home.homeDirectory}/.cargo";
   };
 
   home.sessionPath = [
+    "${config.home.homeDirectory}/bin"
     "${config.home.homeDirectory}/.local/bin"
     "${config.home.homeDirectory}/.gem/bin"
     "${config.home.homeDirectory}/.volta/bin"
     "${config.home.homeDirectory}/.deno/bin"
     "${config.home.homeDirectory}/.bun/bin"
-    "${config.home.homeDirectory}/bin"
     "${config.home.homeDirectory}/.nix-profile/bin"
     "${config.xdg.stateHome}/nix/profile/bin"
     "/run/current-system/sw/bin"
@@ -172,8 +213,20 @@
       functions = {
         fish_greeting = ""; # Disable greeting
         # Add more custom functions here
-        dco = builtins.readFile "${config.home.homeDirectory}/dotfiles/config/fish/functions/dco.fish";
-        cat = builtins.readFile "${config.home.homeDirectory}/dotfiles/config/fish/functions/cat.fish";
+        dco = ''
+          if type -q docker compose
+              docker compose $argv
+          else if type -q docker-compose
+              docker-compose $argv
+          else
+              echo "docker compose or docker-compose not found"
+              echo "Please install docker compose"
+              echo "  \`brew install docker-compose\`"
+          end
+        '';
+        cat = ''
+          bat --paging=never $argv
+        '';
         where = ''
           if test (count $argv) -eq 0
             echo "Usage: where <command>"
@@ -185,7 +238,6 @@
       };
 
       # Add environment variables in a more organized way
-      # interactiveShellInit = builtins.readFile "${config.home.homeDirectory}/dotfiles/config/fish/conf.d/99_custom_init.fish";
       loginShellInit = builtins.readFile "${config.home.homeDirectory}/dotfiles/config/fish/conf.d/99_custom_init.fish";
       plugins = [
         {
@@ -224,15 +276,6 @@
             sha256 = "sha256-ii9gdBPlC1/P1N9xJzqomrkyDqIdTg+iCg0mwNVq2EU=";
           };
         }
-        # {
-        #   name = "fish-abbreviation-tips";
-        #   src = pkgs.fetchFromGitHub {
-        #     owner = "gazorby";
-        #     repo = "fish-abbreviation-tips";
-        #     rev = "master";
-        #     sha256 = "sha256-F1t81VliD+v6WEWqj1c1ehFBXzqLyumx5vV46s/FZRU=";
-        #   };
-        # }
         {
           name = "fzf-fish";
           src = pkgs.fishPlugins.fzf-fish.src;
@@ -248,7 +291,6 @@
       enable = true;
       enableZshIntegration = true;
       enableFishIntegration = true;
-      settings = builtins.fromTOML (builtins.readFile "${config.home.homeDirectory}/dotfiles/config/starship/starship.toml");
     };
 
     bat = {
@@ -378,11 +420,7 @@
     };
   };
 
-  # xdg.configFile = {
-  # "starship.toml".source = "${config.home.homeDirectory}/dotfiles/config/starship/starship.toml";
-  # "wezterm/wezterm.lua".source = ./config/wezterm/wezterm.lua;
-  # "git/config".source = ./config/git/config;
-  # "fish/functions/dco.fish".source = ./config/fish/functions/dco.fish;
-  # "fish/conf.d/99-custom-abbr.fish".source = ./config/fish/conf.d/99-custom-abbr.fish;
-  # };
+  xdg.configFile = {
+    "starship.toml".source = builtins.toPath "${config.home.homeDirectory}/dotfiles/config/starship/starship.toml";
+  };
 }
