@@ -55,12 +55,12 @@
 
     # Package Managers
     volta # JavaScript tool manager
-    cargo # Rust package manager
     cargo-update # Update Rust packages
 
     # Programming Languages & Runtimes
+    rustup # Rust toolchain installer
     rustc # Rust compiler
-    rustfmt # Rust formatter
+    rustlings # Rust learning exercises
     bun # All-in-one JavaScript runtime & toolkit
     deno # JavaScript/TypeScript runtime
 
@@ -145,17 +145,10 @@
     HOMEBREW_NO_ANALYTICS = "1";
     COLORTERM = "truecolor";
     TERM = "xterm-256color";
-    DOCKER_DEFAULT_PLATFORM = "linux/arm64";
     RUST_TARGET = "aarch64-apple-darwin";
-    GOARCH = "arm64";
-    GOOS = "darwin";
     CARGO_NET_GIT_FETCH_WITH_CLI = "true";
-    RUSTC_WRAPPER = "sccache";
     HYPERFINE_MIN_RUNS = "10";
     WATCHMAN_CONFIG_FILE = "${config.xdg.configHome}/watchman/config.json";
-    KUBECONFIG = "${config.xdg.configHome}/kube/config";
-    GOPATH = "${config.home.homeDirectory}/go";
-    POETRY_HOME = "${config.home.homeDirectory}/.poetry";
     CARGO_HOME = "${config.home.homeDirectory}/.cargo";
   };
 
