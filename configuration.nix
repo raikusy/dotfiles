@@ -126,7 +126,7 @@
   # Nix configuration
   nix = {
     settings = {
-      experimental-features = "nix-command flakes";
+      experimental-features = "nix-command flakes ca-derivations";
       trusted-users = [
         "root"
         "raikusy"
