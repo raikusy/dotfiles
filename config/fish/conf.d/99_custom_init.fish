@@ -44,17 +44,10 @@ fish_add_path --global --move --path /Applications/Windsurf.app/Contents/Resourc
 fish_add_path --global --move --path $HOME/.deno/bin
 
 ################### Bun
-# fish_add_path --global --move --path $HOME/.bun/bin
+fish_add_path --global --move --path $HOME/.bun/bin
 
 ################### Volta
 fish_add_path --global --move --path $HOME/.volta/bin
-
-################### FlakeHub
-fh completion fish | source
-
-################### rip2
-rip completions fish | source
-
 
 # function where
 #     if test (count $argv) -eq 0

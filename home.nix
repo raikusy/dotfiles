@@ -22,6 +22,7 @@
     rip2 # Better rm
     _1password-cli # 1Password CLI
     just # Justfile runner
+    antidote # Antidote plugin manager
 
     # Text Editors
     neovim # Hyperextensible Vim-based text editor
@@ -52,6 +53,9 @@
     act # Run GitHub Actions locally
     cocoapods # iOS dependency manager
     watchman # File watching service
+    brotli # Brotli compression format
+    pigz # Parallel gzip
+    node-gyp
 
     # Package Managers
     volta # JavaScript tool manager
@@ -104,6 +108,7 @@
     yq # YAML processor
 
     # GUI Apps
+    telegram-desktop # Telegram
     # maccy # Clipboard manager
     # wezterm # WezTerm Terminal Emulator
     # karabiner-elements # Keyboard customizer
@@ -183,20 +188,70 @@
       enable = true;
       antidote = {
         enable = true;
+        useFriendlyNames = true;
         plugins = [
+          # Let's go ahead and use all of Oh My Zsh's lib directory.
+          "ohmyzsh/ohmyzsh path:lib"
+          "ohmyzsh/ohmyzsh path:plugins/extract"
+
+          # Now, let's pick our Oh My Zsh utilty plugins
+          "ohmyzsh/ohmyzsh path:plugins/colored-man-pages"
+          "ohmyzsh/ohmyzsh path:plugins/copybuffer"
+          "ohmyzsh/ohmyzsh path:plugins/copyfile"
+          "ohmyzsh/ohmyzsh path:plugins/copypath"
+          "ohmyzsh/ohmyzsh path:plugins/globalias"
+          "ohmyzsh/ohmyzsh path:plugins/magic-enter"
+          "ohmyzsh/ohmyzsh path:plugins/fancy-ctrl-z"
+          "ohmyzsh/ohmyzsh path:plugins/otp"
+          "ohmyzsh/ohmyzsh path:plugins/zoxide"
+
+          # Add some programmer plugins
+          "ohmyzsh/ohmyzsh path:plugins/git"
+          "ohmyzsh/ohmyzsh path:plugins/docker"
+          "ohmyzsh/ohmyzsh path:plugins/docker-compose"
+          "ohmyzsh/ohmyzsh path:plugins/vscode"
+          "ohmyzsh/ohmyzsh path:plugins/node"
+
+          # Add macOS specific plugins
+          "ohmyzsh/ohmyzsh path:plugins/brew conditional:is-macos"
+          "ohmyzsh/ohmyzsh path:plugins/macos conditional:is-macos"
+
+          "MichaelAquilina/zsh-you-should-use"
+
+          "olets/zsh-abbr    kind:defer"
+
+          # Add binary utils
+          # romkatv/zsh-bench kind:path
+
+          # Add core plugins that make Zsh a bit more like Fish
+          "zsh-users/zsh-completions path:src kind:fpath"
           "zsh-users/zsh-autosuggestions"
-          "zsh-users/zsh-syntax-highlighting"
-          "zsh-users/zsh-completions"
           "zsh-users/zsh-history-substring-search"
+          "zdharma-continuum/fast-syntax-highlighting"
+          # rupa/z
+
+          # or lighter-weight ones like zsh-utils
+          "belak/zsh-utils path:editor"
+          "belak/zsh-utils path:history"
+          "belak/zsh-utils path:prompt"
+          "belak/zsh-utils path:utility"
+          "belak/zsh-utils path:completion"
         ];
       };
       oh-my-zsh = {
         enable = true;
-        plugins = [
-          "git"
-        ];
       };
       syntaxHighlighting.enable = true;
+      initExtraFirst = ''
+        . "$HOME/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
+      '';
+      initExtra = ''
+        op completion zsh | source
+        fh completion zsh | source
+        rip completions zsh | source
+        . "$HOME/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
+      '';
+      zsh-abbr.enable = true;
     };
 
     fish = {
@@ -218,7 +273,7 @@
           end
         '';
         cat = ''
-          bat --paging=never $argv
+          bat --paging=never --style=auto $argv
         '';
         where = ''
           if test (count $argv) -eq 0
@@ -228,10 +283,19 @@
 
           type -a $argv
         '';
+        asq = ''
+          q chat "$argv"
+        '';
       };
 
       # Add environment variables in a more organized way
-      loginShellInit = builtins.readFile "${config.home.homeDirectory}/dotfiles/config/fish/conf.d/99_custom_init.fish";
+      loginShellInit =
+        builtins.readFile "${config.home.homeDirectory}/dotfiles/config/fish/conf.d/99_custom_init.fish"
+        + ''
+          op completion fish | source
+          fh completion fish | source
+          rip completions fish | source
+        '';
       plugins = [
         {
           name = "osx";
