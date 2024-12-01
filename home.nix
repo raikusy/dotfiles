@@ -51,6 +51,8 @@
     delta # Better git diffs
     difftastic # Structural diff tool
     act # Run GitHub Actions locally
+    actionlint # GitHub Actions linting
+    action-validator # GitHub Actions validator
     cocoapods # iOS dependency manager
     watchman # File watching service
     brotli # Brotli compression format
@@ -146,6 +148,7 @@
     GEM_HOME = "${config.home.homeDirectory}/.gem";
     DENO_INSTALL = "${config.home.homeDirectory}/.deno";
     DOCKER_BUILDKIT = "1";
+    DOCKER_HOST = "unix://${config.xdg.configHome}/colima/default/docker.sock";
     COMPOSE_DOCKER_CLI_BUILD = "1";
     HOMEBREW_NO_ANALYTICS = "1";
     COLORTERM = "truecolor";
@@ -249,6 +252,7 @@
         op completion zsh | source
         fh completion zsh | source
         rip completions zsh | source
+        colima completion zsh | source
         . "$HOME/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
       '';
       zsh-abbr.enable = true;
@@ -295,6 +299,7 @@
           op completion fish | source
           fh completion fish | source
           rip completions fish | source
+          colima completion fish | source
         '';
       plugins = [
         {

@@ -126,7 +126,7 @@
   # Nix configuration
   nix = {
     settings = {
-      experimental-features = "nix-command flakes ca-derivations";
+      experimental-features = "nix-command flakes";
       trusted-users = [
         "root"
         "raikusy"
@@ -143,8 +143,6 @@
       max-jobs = "auto";
       cores = 0;
       extra-experimental-features = [
-        "flakes"
-        "nix-command"
         "recursive-nix"
         "ca-derivations"
       ];
