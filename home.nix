@@ -421,6 +421,7 @@
       userEmail = "xenax.rakibul@gmail.com";
       signing = {
         key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILi1cbiFBIMivXJpLMBS8w4KsOkPpdMEUd1HW5vzWG5G";
+        signByDefault = true;
       };
       extraConfig = {
         init.defaultBranch = "main";
@@ -434,7 +435,7 @@
         };
         gpg = {
           format = "ssh";
-          allowedSigners = builtins.readFile "${config.home.homeDirectory}/dotfiles/config/git/allowed-signers";
+          allowedSignersFile = "${config.home.homeDirectory}/.config/git/allowed-signers";
         };
         "gpg \"ssh\"" = {
           program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
@@ -490,5 +491,6 @@
 
   xdg.configFile = {
     "starship.toml".source = builtins.toPath "${config.home.homeDirectory}/dotfiles/config/starship/starship.toml";
+    "git/allowed-signers".source = builtins.toPath "${config.home.homeDirectory}/dotfiles/config/git/allowed-signers";
   };
 }
