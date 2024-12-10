@@ -44,6 +44,7 @@
     # Development Tools
     git # Version control system
     nil # Nix language server
+    nixd
     alejandra # Nix code formatter
     fh # Nix package manager
     gh # GitHub CLI
@@ -172,6 +173,7 @@
     "/run/current-system/sw/bin"
     "/nix/var/nix/profiles/default/bin"
     "/Applications/Windsurf.app/Contents/Resources/app/bin"
+    "${config.home.sessionVariables.CARGO_HOME}/bin"
   ];
 
   programs = {
@@ -245,6 +247,7 @@
         enable = true;
       };
       syntaxHighlighting.enable = true;
+      zsh-abbr.enable = true;
       initExtraFirst = ''
         . "$HOME/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
       '';
@@ -255,7 +258,6 @@
         colima completion zsh | source
         . "$HOME/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
       '';
-      zsh-abbr.enable = true;
     };
 
     fish = {
@@ -289,6 +291,9 @@
         '';
         asq = ''
           q chat "$argv"
+        '';
+        rm = ''
+          rip $argv
         '';
       };
 
@@ -429,6 +434,7 @@
         };
         gpg = {
           format = "ssh";
+          allowedSigners = builtins.readFile "${config.home.homeDirectory}/dotfiles/config/git/allowed-signers";
         };
         "gpg \"ssh\"" = {
           program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
