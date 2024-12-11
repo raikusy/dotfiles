@@ -130,18 +130,10 @@
   # changes in each release.
   home.stateVersion = "24.05";
 
-  home.file = {
-    ".nix-profile" = {
-      source = "${config.home.sessionVariables.USER_PROFILE}";
-      recursive = true;
-    };
-  };
-
   home.sessionVariables = {
     DOTFILES = "${config.home.homeDirectory}/dotfiles";
     EDITOR = "cursor";
-    WORK = "${config.home.homeDirectory}/workspace";
-    USER_PROFILE = "/etc/static/profiles/per-user/${config.home.username}";
+    USER_PROFILE = "/run/current-system/etc/profiles/per-user/${config.home.username}";
     NIX_PROFILE = "${config.home.homeDirectory}/.nix-profile";
     NODE_OPTIONS = "--max-old-space-size=8192";
     BUN_INSTALL = "${config.home.homeDirectory}/.bun";
@@ -161,6 +153,13 @@
     CARGO_HOME = "${config.home.homeDirectory}/.cargo";
   };
 
+  home.file = {
+    ".nix-profile" = {
+      source = "${config.home.sessionVariables.USER_PROFILE}";
+      recursive = true;
+    };
+  };
+
   home.sessionPath = [
     "${config.home.homeDirectory}/bin"
     "${config.home.homeDirectory}/.local/bin"
@@ -175,6 +174,15 @@
     "/Applications/Windsurf.app/Contents/Resources/app/bin"
     "${config.home.sessionVariables.CARGO_HOME}/bin"
   ];
+
+  xdg.configFile = {
+    "starship.toml" = {
+      source = "${config.home.homeDirectory}/dotfiles/config/starship/starship.toml";
+    };
+    "git/allowed-signers" = {
+      source = "${config.home.homeDirectory}/dotfiles/config/git/allowed-signers";
+    };
+  };
 
   programs = {
     # Let Home Manager install and manage itself.
@@ -425,9 +433,13 @@
       };
       extraConfig = {
         init.defaultBranch = "main";
-        pull.ff = "false";
-        pull.rebase = true;
-        rebase.autoStash = true;
+        pull = {
+          ff = "false";
+          rebase = true;
+        };
+        rebase = {
+          autoStash = true;
+        };
         core = {
           editor = "cursor";
           autocrlf = "input";
@@ -435,10 +447,10 @@
         };
         gpg = {
           format = "ssh";
-          allowedSignersFile = "${config.home.homeDirectory}/.config/git/allowed-signers";
-        };
-        "gpg \"ssh\"" = {
-          program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+          allowedSignersFile = builtins.readFile "${config.xdg.configHome}/git/allowed-signers";
+          ssh = {
+            program = builtins.toPath "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+          };
         };
         commit.gpgSign = true;
         alias = {
@@ -487,10 +499,5 @@
       enable = true;
       extraConfig = builtins.readFile "${config.home.homeDirectory}/dotfiles/config/wezterm/wezterm.lua";
     };
-  };
-
-  xdg.configFile = {
-    "starship.toml".source = builtins.toPath "${config.home.homeDirectory}/dotfiles/config/starship/starship.toml";
-    "git/allowed-signers".source = builtins.toPath "${config.home.homeDirectory}/dotfiles/config/git/allowed-signers";
   };
 }
