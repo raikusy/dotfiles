@@ -44,7 +44,7 @@
     # Development Tools
     git # Version control system
     nil # Nix language server
-    nixd
+    nixd # Nix debugger
     alejandra # Nix code formatter
     fh # Nix package manager
     gh # GitHub CLI
@@ -58,7 +58,8 @@
     watchman # File watching service
     brotli # Brotli compression format
     pigz # Parallel gzip
-    node-gyp
+    node-gyp # Node.js addon build tool
+    zellij # Terminal multiplexer
 
     # Package Managers
     volta # JavaScript tool manager
