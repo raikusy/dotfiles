@@ -16,6 +16,7 @@
   #     "https://nix-community.cachix.org"
   #   ];
   # };
+  nix.channel.enable = false;
 
   # Set Git commit hash for darwin-version.
   system.configurationRevision = self.rev or self.dirtyRev or null;
@@ -94,37 +95,45 @@
   };
 
   # Services configuration
-  services = {
-    nix-daemon.enable = true;
-    # yabai = {
-    #   enable = true;
-    #   enableScriptingAddition = true;
-    #   config = {
-    #     layout = "bsp";
-    #     auto_balance = "on";
-    #     window_placement = "second_child";
-    #     window_gap = 8;
-    #   };
-    # };
-    # skhd = {
-    #   enable = true;
-    #   skhdConfig = ''
-    #     # Toggle window split type
-    #     alt - e : yabai -m window --toggle split
-    #     alt - f : yabai -m window --toggle float
-    #     alt - t : yabai -m window --toggle native-fullscreen
+  # services = {
+  # yabai = {
+  #   enable = true;
+  #   enableScriptingAddition = true;
+  #   config = {
+  #     layout = "bsp";
+  #     auto_balance = "on";
+  #     window_placement = "second_child";
+  #     window_gap = 8;
+  #   };
+  # };
+  # skhd = {
+  #   enable = true;
+  #   skhdConfig = ''
+  #     # Toggle window split type
+  #     alt - e : yabai -m window --toggle split
+  #     alt - f : yabai -m window --toggle float
+  #     alt - t : yabai -m window --toggle native-fullscreen
 
-    #     # Focus window
-    #     alt - h : yabai -m window --focus west
-    #     alt - j : yabai -m window --focus south
-    #     alt - k : yabai -m window --focus north
-    #     alt - l : yabai -m window --focus east
-    #   '';
-    # };
-  };
+  #     # Focus window
+  #     alt - h : yabai -m window --focus west
+  #     alt - j : yabai -m window --focus south
+  #     alt - k : yabai -m window --focus north
+  #     alt - l : yabai -m window --focus east
+  #   '';
+  # };
+  # };
 
   # Nix configuration
   nix = {
+    enable = false;
+    # channel = {
+    #   enable = false;
+    # };
+    # gc = {
+    #   automatic = true;
+    #   interval = { Weekday = 0; Hour = 0; Minute = 0; };
+    #   options = "--delete-older-than 7d";
+    # };
     settings = {
       experimental-features = "nix-command flakes";
       trusted-users = [
@@ -156,7 +165,7 @@
       keep-outputs = true;
       keep-derivations = true;
     };
-    optimise.automatic = true;
+    # optimise.automatic = true;
   };
 
   users.users.raikusy = {

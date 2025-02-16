@@ -18,7 +18,7 @@
     starship # Cross-shell prompt
     direnv # Environment switcher
     lazygit # Git UI
-    tmux # Tmux
+    # tmux # Tmux
     rip2 # Better rm
     _1password-cli # 1Password CLI
     just # Justfile runner
@@ -90,29 +90,29 @@
     awscli2 # AWS CLI
 
     # Additional Development Tools
-    fnm # Fast Node Manager
+    # fnm # Fast Node Manager
     go # Go programming language
 
     # Security Tools
-    age # Modern encryption tool
-    sops # Secrets management
+    # age # Modern encryption tool
+    # sops # Secrets management
 
     # System Monitoring & Performance
-    mactop # macOS system monitor
-    topgrade # System upgrade tool
-    fastfetch # Fast fetch
-    bottom # System monitor with nice graphs
-    htop # Interactive process viewer
-    hyperfine # Command-line benchmarking tool
-    bandwhich # Network utilization tool
+    # mactop # macOS system monitor
+    # topgrade # System upgrade tool
+    # fastfetch # Fast fetch
+    # bottom # System monitor with nice graphs
+    # htop # Interactive process viewer
+    # hyperfine # Command-line benchmarking tool
+    # bandwhich # Network utilization tool
 
     # Misc Tools
-    sherlock # Hunt down social media accounts
-    jq # JSON processor
-    yq # YAML processor
+    # sherlock # Hunt down social media accounts
+    # jq # JSON processor
+    # yq # YAML processor
 
     # GUI Apps
-    telegram-desktop # Telegram
+    # telegram-desktop # Telegram
     # maccy # Clipboard manager
     # wezterm # WezTerm Terminal Emulator
     # karabiner-elements # Keyboard customizer
@@ -129,7 +129,7 @@
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = "24.05";
+  home.stateVersion = "24.11";
 
   home.sessionVariables = {
     DOTFILES = "${config.home.homeDirectory}/dotfiles";
@@ -165,7 +165,7 @@
     "${config.home.homeDirectory}/bin"
     "${config.home.homeDirectory}/.local/bin"
     "${config.home.homeDirectory}/.gem/bin"
-    "${config.home.homeDirectory}/.volta/bin"
+    # "${config.home.homeDirectory}/.volta/bin"
     "${config.home.homeDirectory}/.deno/bin"
     "${config.home.homeDirectory}/.bun/bin"
     "${config.home.homeDirectory}/.nix-profile/bin"
@@ -316,15 +316,15 @@
           colima completion fish | source
         '';
       plugins = [
-        {
-          name = "osx";
-          src = pkgs.fetchFromGitHub {
-            owner = "oh-my-fish";
-            repo = "plugin-osx";
-            rev = "main";
-            sha256 = "sha256-jSUIk3ewM6QnfoAtp16l96N1TlX6vR0d99dvEH53Xgw=";
-          };
-        }
+        # {
+        #   name = "osx";
+        #   src = pkgs.fetchFromGitHub {
+        #     owner = "oh-my-fish";
+        #     repo = "plugin-osx";
+        #     rev = "main";
+        #     sha256 = "sha256-jSUIk3ewM6QnfoAtp16l96N1TlX6vR0d99dvEH53Xgw=";
+        #   };
+        # }
         {
           name = "replay.fish";
           src = pkgs.fetchFromGitHub {
@@ -334,15 +334,15 @@
             sha256 = "sha256-TzQ97h9tBRUg+A7DSKeTBWLQuThicbu19DHMwkmUXdg=";
           };
         }
-        {
-          name = "gitnow";
-          src = pkgs.fetchFromGitHub {
-            owner = "joseluisq";
-            repo = "gitnow";
-            rev = "main";
-            sha256 = "sha256-PuorwmaZAeG6aNWX4sUTBIE+NMdn1iWeea3rJ2RhqRQ=";
-          };
-        }
+        # {
+        #   name = "gitnow";
+        #   src = pkgs.fetchFromGitHub {
+        #     owner = "joseluisq";
+        #     repo = "gitnow";
+        #     rev = "main";
+        #     sha256 = "sha256-PuorwmaZAeG6aNWX4sUTBIE+NMdn1iWeea3rJ2RhqRQ=";
+        #   };
+        # }
         {
           name = "colored_man_pages.fish";
           src = pkgs.fetchFromGitHub {
@@ -382,7 +382,7 @@
       enableFishIntegration = true;
       enableZshIntegration = true;
       git = true;
-      icons = true;
+      icons = "auto";
       extraOptions = [
         "--group-directories-first"
         "--header"
@@ -400,7 +400,7 @@
       enableBashIntegration = true;
       enableFishIntegration = true;
       enableZshIntegration = true;
-      tmux.enableShellIntegration = true;
+      # tmux.enableShellIntegration = true;
     };
 
     yazi = {
@@ -463,38 +463,38 @@
       };
     };
 
-    tmux = {
-      enable = true;
-      clock24 = true;
-      keyMode = "vi";
-      customPaneNavigationAndResize = true;
-      terminal = "screen-256color";
-      plugins = with pkgs.tmuxPlugins; [
-        sensible
-        yank
-        resurrect
-        continuum
-        {
-          plugin = dracula;
-          extraConfig = ''
-            set -g @dracula-show-battery false
-            set -g @dracula-show-powerline true
-            set -g @dracula-refresh-rate 10
-          '';
-        }
-      ];
-      extraConfig = ''
-        # Enable mouse support
-        set -g mouse on
+    # tmux = {
+    #   enable = true;
+    #   clock24 = true;
+    #   keyMode = "vi";
+    #   customPaneNavigationAndResize = true;
+    #   terminal = "screen-256color";
+    #   plugins = with pkgs.tmuxPlugins; [
+    #     sensible
+    #     yank
+    #     resurrect
+    #     continuum
+    #     {
+    #       plugin = dracula;
+    #       extraConfig = ''
+    #         set -g @dracula-show-battery false
+    #         set -g @dracula-show-powerline true
+    #         set -g @dracula-refresh-rate 10
+    #       '';
+    #     }
+    #   ];
+    #   extraConfig = ''
+    #     # Enable mouse support
+    #     set -g mouse on
 
-        # Start windows and panes at 1, not 0
-        set -g base-index 1
-        setw -g pane-base-index 1
+    #     # Start windows and panes at 1, not 0
+    #     set -g base-index 1
+    #     setw -g pane-base-index 1
 
-        # Automatically renumber windows
-        set -g renumber-windows on
-      '';
-    };
+    #     # Automatically renumber windows
+    #     set -g renumber-windows on
+    #   '';
+    # };
 
     wezterm = {
       enable = true;

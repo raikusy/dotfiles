@@ -3,11 +3,22 @@
 
   inputs = {
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/0.1";
-    nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/0.1.704822.tar.gz";
-    nix-darwin.url = "github:LnL7/nix-darwin";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    home-manager.url = "https://flakehub.com/f/nix-community/home-manager/0.2405.*";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+
+    # lix-module = {
+    #   url = "https://git.lix.systems/lix-project/nixos-module/archive/2.92.0.tar.gz";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+
+    # Environment/system management
+    darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.11";
 
@@ -27,6 +38,7 @@
     nix-homebrew,
     alejandra,
     nixpkgs-stable,
+    # lix-module,
     ...
   }: let
     system = "aarch64-darwin";
@@ -42,7 +54,8 @@
     darwinConfigurations.raikusy = nix-darwin.lib.darwinSystem {
       inherit system specialArgs;
       modules = [
-        determinate.darwinModules.default
+        # lix-module.nixosModules.default
+        # determinate.darwinModules.default
         home-manager.darwinModules.home-manager
         nix-homebrew.darwinModules.nix-homebrew
         ./configuration.nix
