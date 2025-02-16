@@ -334,15 +334,15 @@
             sha256 = "sha256-TzQ97h9tBRUg+A7DSKeTBWLQuThicbu19DHMwkmUXdg=";
           };
         }
-        # {
-        #   name = "gitnow";
-        #   src = pkgs.fetchFromGitHub {
-        #     owner = "joseluisq";
-        #     repo = "gitnow";
-        #     rev = "main";
-        #     sha256 = "sha256-PuorwmaZAeG6aNWX4sUTBIE+NMdn1iWeea3rJ2RhqRQ=";
-        #   };
-        # }
+        {
+          name = "gitnow";
+          src = pkgs.fetchFromGitHub {
+            owner = "joseluisq";
+            repo = "gitnow";
+            rev = "2.12.0";
+            sha256 = "sha256-PuorwmaZAeG6aNWX4sUTBIE+NMdn1iWeea3rJ2RhqRQ=";
+          };
+        }
         {
           name = "colored_man_pages.fish";
           src = pkgs.fetchFromGitHub {
