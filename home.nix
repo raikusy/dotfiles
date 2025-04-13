@@ -93,6 +93,10 @@
     # fnm # Fast Node Manager
     go # Go programming language
 
+    autoconf
+    mise
+    zimfw
+
     # Security Tools
     # age # Modern encryption tool
     # sops # Secrets management
@@ -227,8 +231,7 @@
           "ohmyzsh/ohmyzsh path:plugins/node"
 
           # Add macOS specific plugins
-          "ohmyzsh/ohmyzsh path:plugins/brew conditional:is-macos"
-          "ohmyzsh/ohmyzsh path:plugins/macos conditional:is-macos"
+          "ohmyzsh/ohmyzsh path:plugins/macos"
 
           "MichaelAquilina/zsh-you-should-use"
 
@@ -261,11 +264,14 @@
         . "$HOME/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
       '';
       initExtra = ''
-        op completion zsh | source
-        fh completion zsh | source
-        rip completions zsh | source
-        colima completion zsh | source
+        eval "$(op completion zsh)"
+        eval "$(rip completions zsh)"
+        eval "$(fh completion zsh)"
+        eval "$(colima completion zsh)"
         . "$HOME/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
+        eval "$(mise activate zsh)"
+        eval "$(mise completion zsh)"
+
       '';
     };
 
@@ -288,7 +294,7 @@
           end
         '';
         cat = ''
-          bat --paging=never --style=auto $argv
+          bat $argv
         '';
         where = ''
           if test (count $argv) -eq 0
@@ -304,6 +310,16 @@
         rm = ''
           rip $argv
         '';
+        cx = ''
+          # Check if any arguments were passed to the function
+          if test (count $argv) -eq 0
+              # No arguments provided, open the current directory
+              cursor .
+          else
+              # Arguments provided, pass them directly to the cursor command
+              cursor $argv
+          end
+        '';
       };
 
       # Add environment variables in a more organized way
@@ -314,6 +330,7 @@
           fh completion fish | source
           rip completions fish | source
           colima completion fish | source
+          mise completion fish | source
         '';
       plugins = [
         # {
@@ -373,6 +390,8 @@
       enable = true;
       config = {
         theme = "base16";
+        paging = "never";
+        color = "always";
       };
     };
 

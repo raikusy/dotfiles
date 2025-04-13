@@ -231,7 +231,7 @@ config.keys = {
   },
 
   {
-    key = "w",
+    key = "W",
     mods = "CMD|SHIFT",
     action = wezterm.action.CloseCurrentTab { confirm = true }
   },
@@ -246,7 +246,18 @@ config.keys = {
     key = 'g',
     mods = 'CMD',
     action = wezterm.action.SplitHorizontal {
-      args = { os.getenv 'SHELL', '-c', 'lg' },
+      domain = 'CurrentPaneDomain'
+    }
+  },
+  -- Run lazygit with push and PR creation (CMD+G)
+  {
+    key = 'G',
+    mods = 'CMD|SHIFT',
+    action = wezterm.action.SpawnCommandInNewTab {
+      domain = 'CurrentPaneDomain',
+      args = {
+        'lazygit branch'
+      },
     }
   }
 }
