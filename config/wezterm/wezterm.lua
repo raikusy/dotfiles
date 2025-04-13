@@ -254,12 +254,14 @@ config.keys = {
     key = 'G',
     mods = 'CMD|SHIFT',
     action = wezterm.action.SpawnCommandInNewTab {
-      domain = 'CurrentPaneDomain',
       args = {
         'lazygit branch'
       },
     }
   }
 }
+
+local bar = wezterm.plugin.require("https://github.com/adriankarlen/bar.wezterm")
+bar.apply_to_config(config)
 -- and finally, return the configuration to wezterm
 return config

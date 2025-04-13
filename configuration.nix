@@ -50,6 +50,26 @@
     };
   };
 
+  homebrew = {
+    enable = true;
+    brews = [
+      "composer"
+    ];
+    casks = [
+      "ghostty"
+      "1password-cli"
+      "hammerspoon"
+      "miniconda"
+      "visual-studio-code"
+      "warp"
+      "font-symbols-only-nerd-font"
+      "gitify"
+      "insomnia"
+      "orbstack"
+      "vlc"
+    ];
+  };
+
   # System settings and preferences
   system = {
     keyboard = {

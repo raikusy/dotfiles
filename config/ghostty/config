@@ -1,0 +1,12 @@
+theme = catppuccin-mocha
+shell-integration = fish
+keybind = global:cmd+grave_accent=toggle_quick_terminal
+keybind = cmd+d=new_split:right
+keybind = cmd+shift+d=new_split:down
+keybind = ctrl+tab=next_tab
+keybind = ctrl+shift+tab=prev_tab
+font-family = JetBrainsMono Nerd Font
+font-size = 12
+window-padding-x = 10
+window-padding-y = 10
+command = ghostty -e /Users/raikusy/.nix-profile/bin/fish --login --interactive

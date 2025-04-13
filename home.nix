@@ -104,7 +104,7 @@
     # System Monitoring & Performance
     # mactop # macOS system monitor
     # topgrade # System upgrade tool
-    # fastfetch # Fast fetch
+    fastfetch # Fast fetch
     # bottom # System monitor with nice graphs
     # htop # Interactive process viewer
     # hyperfine # Command-line benchmarking tool
@@ -186,6 +186,9 @@
     };
     "git/allowed-signers" = {
       source = "${config.home.homeDirectory}/dotfiles/config/git/allowed-signers";
+    };
+    "ghostty/config" = {
+      source = "${config.home.homeDirectory}/dotfiles/config/ghostty/config";
     };
   };
 
@@ -320,11 +323,44 @@
               cursor $argv
           end
         '';
+        projects = {
+          description = "Jump to a project";
+          body = ''
+            set projdir ( \
+                fd \
+                    --search-path $HOME/dev \
+                    --type directory \
+                    --hidden \
+                    "^.git\$" \
+                | xargs dirname \
+                | fzf \
+                    --delimiter '/' \
+                    --with-nth 6.. \
+            )
+            and cd $projdir
+            and commandline -f execute
+          '';
+        };
+        copy = {
+          description = "Copy file contents into clipboard";
+          body = "cat $argv | pbcopy"; # Need to fix for non-macOS
+        };
+        json = {
+          description = "Tidy up JSON using jq";
+          body = "pbpaste | jq '.' | pbcopy"; # Need to fix for non-macOS
+        };
+        see = {
+          description = "Interactive directory explorer with fd, fzf, and rg";
+          body = builtins.readFile "${config.home.homeDirectory}/dotfiles/config/fish/functions/see.fish";
+        };
       };
 
       # Add environment variables in a more organized way
       loginShellInit =
-        builtins.readFile "${config.home.homeDirectory}/dotfiles/config/fish/conf.d/99_custom_init.fish"
+        ''
+          /opt/homebrew/bin/brew shellenv | source
+        ''
+        + builtins.readFile "${config.home.homeDirectory}/dotfiles/config/fish/config.fish"
         + ''
           op completion fish | source
           fh completion fish | source
@@ -333,24 +369,6 @@
           mise completion fish | source
         '';
       plugins = [
-        # {
-        #   name = "osx";
-        #   src = pkgs.fetchFromGitHub {
-        #     owner = "oh-my-fish";
-        #     repo = "plugin-osx";
-        #     rev = "main";
-        #     sha256 = "sha256-jSUIk3ewM6QnfoAtp16l96N1TlX6vR0d99dvEH53Xgw=";
-        #   };
-        # }
-        {
-          name = "replay.fish";
-          src = pkgs.fetchFromGitHub {
-            owner = "jorgebucaran";
-            repo = "replay.fish";
-            rev = "main";
-            sha256 = "sha256-TzQ97h9tBRUg+A7DSKeTBWLQuThicbu19DHMwkmUXdg=";
-          };
-        }
         {
           name = "gitnow";
           src = pkgs.fetchFromGitHub {

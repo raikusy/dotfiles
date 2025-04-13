@@ -20,8 +20,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.11";
-
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
     nix-homebrew.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -37,17 +35,12 @@
     home-manager,
     nix-homebrew,
     alejandra,
-    nixpkgs-stable,
     # lix-module,
     ...
   }: let
     system = "aarch64-darwin";
     specialArgs = {
       inherit self system;
-      pkgs-stable = import nixpkgs-stable {
-        inherit system;
-        config.allowUnfree = true;
-      };
     };
   in {
     formatter.aarch64-darwin = alejandra;
