@@ -54,6 +54,7 @@
     enable = true;
     brews = [
       "composer"
+      "mise"
     ];
     casks = [
       "ghostty"

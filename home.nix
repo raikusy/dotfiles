@@ -94,7 +94,6 @@
     go # Go programming language
 
     autoconf
-    mise
     zimfw
 
     # Security Tools
@@ -271,10 +270,9 @@
         eval "$(rip completions zsh)"
         eval "$(fh completion zsh)"
         eval "$(colima completion zsh)"
-        . "$HOME/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
         eval "$(mise activate zsh)"
         eval "$(mise completion zsh)"
-
+        . "$HOME/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
       '';
     };
 
@@ -459,6 +457,7 @@
       nix-direnv.enable = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
+      mise.enable = true;
     };
 
     git = {
@@ -500,42 +499,16 @@
       };
     };
 
-    # tmux = {
-    #   enable = true;
-    #   clock24 = true;
-    #   keyMode = "vi";
-    #   customPaneNavigationAndResize = true;
-    #   terminal = "screen-256color";
-    #   plugins = with pkgs.tmuxPlugins; [
-    #     sensible
-    #     yank
-    #     resurrect
-    #     continuum
-    #     {
-    #       plugin = dracula;
-    #       extraConfig = ''
-    #         set -g @dracula-show-battery false
-    #         set -g @dracula-show-powerline true
-    #         set -g @dracula-refresh-rate 10
-    #       '';
-    #     }
-    #   ];
-    #   extraConfig = ''
-    #     # Enable mouse support
-    #     set -g mouse on
-
-    #     # Start windows and panes at 1, not 0
-    #     set -g base-index 1
-    #     setw -g pane-base-index 1
-
-    #     # Automatically renumber windows
-    #     set -g renumber-windows on
-    #   '';
-    # };
-
     wezterm = {
       enable = true;
       extraConfig = builtins.readFile "${config.home.homeDirectory}/dotfiles/config/wezterm/wezterm.lua";
+    };
+
+    mise = {
+      enable = true;
+      enableZshIntegration = true;
+      enableFishIntegration = true;
+      enableBashIntegration = true;
     };
   };
 }
