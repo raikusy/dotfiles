@@ -347,10 +347,6 @@
           description = "Tidy up JSON using jq";
           body = "pbpaste | jq '.' | pbcopy"; # Need to fix for non-macOS
         };
-        see = {
-          description = "Interactive directory explorer with fd, fzf, and rg";
-          body = builtins.readFile "${config.home.homeDirectory}/dotfiles/config/fish/functions/see.fish";
-        };
       };
 
       # Add environment variables in a more organized way
