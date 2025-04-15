@@ -281,7 +281,6 @@
 
       # Add useful shell functions
       functions = {
-        fish_greeting = ""; # Disable greeting
         # Add more custom functions here
         dco = ''
           if type -q docker compose
@@ -498,13 +497,6 @@
     wezterm = {
       enable = true;
       extraConfig = builtins.readFile "${config.home.homeDirectory}/dotfiles/config/wezterm/wezterm.lua";
-    };
-
-    mise = {
-      enable = true;
-      enableZshIntegration = true;
-      enableFishIntegration = true;
-      enableBashIntegration = true;
     };
   };
 }

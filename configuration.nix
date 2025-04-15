@@ -73,10 +73,10 @@
 
   # System settings and preferences
   system = {
-    keyboard = {
-      enableKeyMapping = true;
-      remapCapsLockToEscape = true;
-    };
+    # keyboard = {
+    #   enableKeyMapping = true;
+    #   remapCapsLockToEscape = true;
+    # };
     defaults = {
       NSGlobalDomain = {
         AppleShowAllExtensions = true;
