@@ -1,9 +1,18 @@
+command = /Users/raikusy/.nix-profile/bin/fish --login --interactive
 theme = catppuccin-mocha
-shell-integration = fish
+font-family = "JetBrainsMono Nerd Font"
+font-size = 16
 keybind = global:cmd+grave_accent=toggle_quick_terminal
-keybind = cmd+d=new_split:right
-keybind = cmd+shift+d=new_split:down
-keybind = ctrl+tab=next_tab
-keybind = ctrl+shift+tab=prev_tab
-font-family = JetBrainsMono Nerd Font
-font-size = 14
+keybind = ctrl+z=close_surface
+keybind = ctrl+d=new_split:right
+keybind = ctrl+v=new_split:down
+keybind = ctrl+shift+.=reload_config
+cursor-style = block
+shell-integration = fish
+shell-integration-features = cursor, sudo, title
+macos-titlebar-style = tabs
+macos-option-as-alt = true
+# Auto-update Ghostty when a new release is available.
+auto-update = download
+# gpg pinentry freaks out if $TERM is not set
+term = xterm-256color

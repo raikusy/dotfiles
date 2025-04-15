@@ -21,8 +21,6 @@
     # tmux # Tmux
     rip2 # Better rm
     _1password-cli # 1Password CLI
-    just # Justfile runner
-    antidote # Antidote plugin manager
 
     # Text Editors
     neovim # Hyperextensible Vim-based text editor
@@ -36,6 +34,7 @@
     kondo # Save disk space by cleaning unneeded files
     ox # Independent Rust text editor that runs in your terminal
     superfile # Supercharged file manager
+    wiper
 
     # Search and Filter
     ripgrep # Fast grep alternative
@@ -82,46 +81,13 @@
     wget # Network file retriever
 
     # macOS Specific
-    m-cli # Swiss Army Knife for macOS
     mas # Mac App Store CLI
     xcode-install # Install and update Xcode
 
     # Cloud & Infrastructure
     awscli2 # AWS CLI
-
-    # Additional Development Tools
-    # fnm # Fast Node Manager
     go # Go programming language
-
-    autoconf
-    zimfw
-
-    # Security Tools
-    # age # Modern encryption tool
-    # sops # Secrets management
-
-    # System Monitoring & Performance
-    # mactop # macOS system monitor
-    # topgrade # System upgrade tool
     fastfetch # Fast fetch
-    # bottom # System monitor with nice graphs
-    # htop # Interactive process viewer
-    # hyperfine # Command-line benchmarking tool
-    # bandwhich # Network utilization tool
-
-    # Misc Tools
-    # sherlock # Hunt down social media accounts
-    # jq # JSON processor
-    # yq # YAML processor
-
-    # GUI Apps
-    # telegram-desktop # Telegram
-    # maccy # Clipboard manager
-    # wezterm # WezTerm Terminal Emulator
-    # karabiner-elements # Keyboard customizer
-    # arc-browser # Arc Browser
-    # warp-terminal # Warp Terminal
-    # raycast # Raycast
   ];
 
   # This value determines the Home Manager release that your
@@ -168,7 +134,7 @@
     "${config.home.homeDirectory}/bin"
     "${config.home.homeDirectory}/.local/bin"
     "${config.home.homeDirectory}/.gem/bin"
-    # "${config.home.homeDirectory}/.volta/bin"
+    "${config.home.homeDirectory}/.volta/bin"
     "${config.home.homeDirectory}/.deno/bin"
     "${config.home.homeDirectory}/.bun/bin"
     "${config.home.homeDirectory}/.nix-profile/bin"
@@ -189,6 +155,9 @@
     "ghostty/config" = {
       source = "${config.home.homeDirectory}/dotfiles/config/ghostty/config";
     };
+    "wezterm/wezterm.lua" = {
+      source = "${config.home.homeDirectory}/dotfiles/config/wezterm/wezterm.lua";
+    };
   };
 
   programs = {
@@ -199,9 +168,6 @@
 
     bun = {
       enable = true;
-      settings = {
-        smol = true;
-      };
     };
 
     zsh = {
@@ -209,62 +175,10 @@
       antidote = {
         enable = true;
         useFriendlyNames = true;
-        plugins = [
-          # Let's go ahead and use all of Oh My Zsh's lib directory.
-          "ohmyzsh/ohmyzsh path:lib"
-          "ohmyzsh/ohmyzsh path:plugins/extract"
-
-          # Now, let's pick our Oh My Zsh utilty plugins
-          "ohmyzsh/ohmyzsh path:plugins/colored-man-pages"
-          "ohmyzsh/ohmyzsh path:plugins/copybuffer"
-          "ohmyzsh/ohmyzsh path:plugins/copyfile"
-          "ohmyzsh/ohmyzsh path:plugins/copypath"
-          "ohmyzsh/ohmyzsh path:plugins/globalias"
-          "ohmyzsh/ohmyzsh path:plugins/magic-enter"
-          "ohmyzsh/ohmyzsh path:plugins/fancy-ctrl-z"
-          "ohmyzsh/ohmyzsh path:plugins/otp"
-          "ohmyzsh/ohmyzsh path:plugins/zoxide"
-
-          # Add some programmer plugins
-          "ohmyzsh/ohmyzsh path:plugins/git"
-          "ohmyzsh/ohmyzsh path:plugins/docker"
-          "ohmyzsh/ohmyzsh path:plugins/docker-compose"
-          "ohmyzsh/ohmyzsh path:plugins/vscode"
-          "ohmyzsh/ohmyzsh path:plugins/node"
-
-          # Add macOS specific plugins
-          "ohmyzsh/ohmyzsh path:plugins/macos"
-
-          "MichaelAquilina/zsh-you-should-use"
-
-          "olets/zsh-abbr    kind:defer"
-
-          # Add binary utils
-          # romkatv/zsh-bench kind:path
-
-          # Add core plugins that make Zsh a bit more like Fish
-          "zsh-users/zsh-completions path:src kind:fpath"
-          "zsh-users/zsh-autosuggestions"
-          "zsh-users/zsh-history-substring-search"
-          "zdharma-continuum/fast-syntax-highlighting"
-          # rupa/z
-
-          # or lighter-weight ones like zsh-utils
-          "belak/zsh-utils path:editor"
-          "belak/zsh-utils path:history"
-          "belak/zsh-utils path:prompt"
-          "belak/zsh-utils path:utility"
-          "belak/zsh-utils path:completion"
-        ];
-      };
-      oh-my-zsh = {
-        enable = true;
+        plugins = [];
       };
       syntaxHighlighting.enable = true;
       zsh-abbr.enable = true;
-      initExtraFirst = ''
-        . "$HOME/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
-      '';
       initExtra = ''
         eval "$(op completion zsh)"
         eval "$(rip completions zsh)"
@@ -272,7 +186,6 @@
         eval "$(colima completion zsh)"
         eval "$(mise activate zsh)"
         eval "$(mise completion zsh)"
-        . "$HOME/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
       '';
     };
 
@@ -281,6 +194,7 @@
 
       # Add useful shell functions
       functions = {
+        fish_greeting = "";
         # Add more custom functions here
         dco = ''
           if type -q docker compose
@@ -345,6 +259,21 @@
         json = {
           description = "Tidy up JSON using jq";
           body = "pbpaste | jq '.' | pbcopy"; # Need to fix for non-macOS
+        };
+        br = {
+          description = "Open browser";
+          wraps = "broot";
+          body = ''
+            set -l cmd_file (mktemp)
+            if broot --outcmd $cmd_file $argv
+                source $cmd_file
+                rm -f $cmd_file
+            else
+                set -l code $status
+                rm -f $cmd_file
+                return $code
+            end
+          '';
         };
       };
 
@@ -492,11 +421,6 @@
           helper = "!gh auth git-credential";
         };
       };
-    };
-
-    wezterm = {
-      enable = true;
-      extraConfig = builtins.readFile "${config.home.homeDirectory}/dotfiles/config/wezterm/wezterm.lua";
     };
   };
 }

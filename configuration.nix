@@ -186,7 +186,6 @@
       keep-outputs = true;
       keep-derivations = true;
     };
-    # optimise.automatic = true;
   };
 
   users.users.raikusy = {
