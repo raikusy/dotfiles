@@ -239,7 +239,7 @@
           body = ''
             set projdir ( \
                 fd \
-                    --search-path $HOME/dev \
+                    --search-path $HOME/workspace \
                     --type directory \
                     --hidden \
                     "^.git\$" \
@@ -275,8 +275,11 @@
             end
           '';
         };
+        print_path = {
+          description = "Print PATH variable in a nicely formatted way";
+          body = "echo $PATH | string split ' ' | awk '{print NR \" \", $0}' | bat --plain --language=ini";
+        };
       };
-
       # Add environment variables in a more organized way
       loginShellInit =
         ''
