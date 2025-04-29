@@ -1,7 +1,7 @@
 # dotfiles
 
 1. Clone this repo
-2. Install nix using [determinate-systems](https://docs.determinate.systems/getting-started/individuals/https://):
+2. Install nix using [determinate-systems](https://docs.determinate.systems/getting-started/individuals/):
 
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --determinate
