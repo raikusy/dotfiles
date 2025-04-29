@@ -292,6 +292,7 @@
           rip completions fish | source
           colima completion fish | source
           mise completion fish | source
+          atuin init fish | source
         '';
       plugins = [
         {
