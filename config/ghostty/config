@@ -1,12 +1,13 @@
 command = /Users/raikusy/.nix-profile/bin/fish --login --interactive
 theme = catppuccin-mocha
 font-family = "JetBrainsMono Nerd Font"
-font-size = 16
+font-size = 14
 keybind = global:cmd+grave_accent=toggle_quick_terminal
 keybind = ctrl+z=close_surface
 keybind = ctrl+d=new_split:right
 keybind = ctrl+v=new_split:down
 keybind = ctrl+shift+.=reload_config
+keybind = global:cmd+§=toggle_quick_terminal
 cursor-style = block
 shell-integration = fish
 shell-integration-features = cursor, sudo, title

@@ -16,7 +16,6 @@
     grc # Colorize terminal output
     fish # Friendly Interactive Shell
     starship # Cross-shell prompt
-    direnv # Environment switcher
     lazygit # Git UI
     # tmux # Tmux
     rip2 # Better rm
@@ -184,8 +183,6 @@
         eval "$(rip completions zsh)"
         eval "$(fh completion zsh)"
         eval "$(colima completion zsh)"
-        eval "$(mise activate zsh)"
-        eval "$(mise completion zsh)"
       '';
     };
 
@@ -291,7 +288,6 @@
           fh completion fish | source
           rip completions fish | source
           colima completion fish | source
-          mise completion fish | source
           atuin init fish | source
         '';
       plugins = [
@@ -378,14 +374,6 @@
       enableBashIntegration = true;
       enableFishIntegration = true;
       enableZshIntegration = true;
-    };
-
-    direnv = {
-      enable = true;
-      nix-direnv.enable = true;
-      enableBashIntegration = true;
-      enableZshIntegration = true;
-      mise.enable = true;
     };
 
     git = {
