@@ -18,3 +18,10 @@ nix run nix-darwin --extra-experimental-features "nix-command flakes" -- switch 
 ```bash
 darwin-rebuild switch --flake ~/dotfiles --impure
 ```
+
+```bash
+get-library-docs /nixos/nixpkgs
+get-library-docs /nix-darwin/nix-darwin
+get-library-docs /nix-community/home-manager
+get-library-docs /nixos/nix
+```
