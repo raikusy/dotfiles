@@ -2,39 +2,26 @@
   description = "Darwin configuration";
 
   inputs = {
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/0.1";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-
-    # lix-module = {
-    #   url = "https://git.lix.systems/lix-project/nixos-module/archive/2.92.0.tar.gz";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-
-    # Environment/system management
-    darwin = {
-      url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
-    nix-homebrew.inputs.nixpkgs.follows = "nixpkgs";
+    # determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/0.1";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    darwin.url = "github:nix-darwin/nix-darwin";
+    darwin.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+    # nix-homebrew.inputs.nixpkgs.follows = "nixpkgs";
 
     # Formatter
-    alejandra.url = "github:kamadorueda/alejandra/3.1.0";
-    alejandra.inputs.nixpkgs.follows = "nixpkgs";
+    # alejandra.url = "github:kamadorueda/alejandra/3.1.0";
+    # alejandra.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
     self,
-    determinate,
     nix-darwin,
     home-manager,
     nix-homebrew,
-    alejandra,
+    # alejandra,
     # lix-module,
     ...
   }: let
@@ -43,7 +30,7 @@
       inherit self system;
     };
   in {
-    formatter.aarch64-darwin = alejandra;
+    # formatter.aarch64-darwin = alejandra;
     darwinConfigurations.raikusy = nix-darwin.lib.darwinSystem {
       inherit system specialArgs;
       modules = [

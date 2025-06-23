@@ -43,7 +43,7 @@
     git # Version control system
     nil # Nix language server
     nixd # Nix debugger
-    alejandra # Nix code formatter
+    # alejandra # Nix code formatter
     fh # Nix package manager
     gh # GitHub CLI
     git-credential-manager # Git credential manager
@@ -178,7 +178,7 @@
       };
       syntaxHighlighting.enable = true;
       zsh-abbr.enable = true;
-      initExtra = ''
+      initContent = ''
         eval "$(op completion zsh)"
         eval "$(rip completions zsh)"
         eval "$(fh completion zsh)"

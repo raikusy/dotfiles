@@ -76,6 +76,7 @@
     #   enableKeyMapping = true;
     #   remapCapsLockToEscape = true;
     # };
+    primaryUser = "raikusy";
     defaults = {
       NSGlobalDomain = {
         AppleShowAllExtensions = true;

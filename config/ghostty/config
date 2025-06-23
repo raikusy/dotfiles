@@ -1,38 +1,30 @@
-# command = /Users/raikusy/.nix-profile/bin/fish --login --interactive
-# # theme = catppuccin-mocha
-
-# keybind = global:cmd+grave_accent=toggle_quick_terminal
-# keybind = ctrl+z=close_surface
-# keybind = ctrl+d=new_split:right
-# keybind = ctrl+v=new_split:down
-# keybind = ctrl+shift+.=reload_config
-# keybind = global:cmd+§=toggle_quick_terminal
-# keybind = option+right=unbind
-# cursor-style = block
-# shell-integration = fish
-# shell-integration-features = cursor, sudo, title
-# macos-titlebar-style = tabs
-# macos-option-as-alt = true
-# # Auto-update Ghostty when a new release is available.
-# auto-update = download
-# # gpg pinentry freaks out if $TERM is not set
-# term = xterm-256color
+# Fish shell
+command = /Users/raikusy/.nix-profile/bin/fish --login --interactive
 
 # Claude Code integration
 keybind = shift+enter=text:\x1b[13;2u
 
 # Font settings for code
 font-family = "JetBrains Mono"
-font-size = 14
+font-size = 12
 
 # Theme and colors
-theme = dark
+theme = catppuccin-mocha
 background-opacity = 0.95
 
 # Window settings
 window-padding-x = 10
 window-padding-y = 10
 window-decoration = false
+cursor-style = block
+macos-titlebar-style = tabs
+macos-option-as-alt = true
+
+# Auto-update Ghostty when a new release is available.
+auto-update = download
+
+# gpg pinentry freaks out if $TERM is not set
+term = xterm-256color 
 
 # Performance
 unfocused-split-opacity = 0.7
@@ -55,3 +47,4 @@ confirm-close-surface = false
 
 # Shell integration
 shell-integration = fish
+shell-integration-features = cursor, sudo, title
