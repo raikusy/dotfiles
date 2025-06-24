@@ -3,12 +3,12 @@
 
   inputs = {
     # determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/0.1";
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nix-darwin.url = "github:nix-darwin/nix-darwin";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.819493.tar.gz";
+    darwin.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2505.804391.tar.gz";
+    # darwin.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2505.804391.tar.gz";
+    # home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    homebrew.url = "github:zhaofengli/nix-homebrew";
     # nix-homebrew.inputs.nixpkgs.follows = "nixpkgs";
 
     # Formatter
@@ -18,9 +18,9 @@
 
   outputs = {
     self,
-    nix-darwin,
+    darwin,
     home-manager,
-    nix-homebrew,
+    homebrew,
     # alejandra,
     # lix-module,
     ...
@@ -31,13 +31,13 @@
     };
   in {
     # formatter.aarch64-darwin = alejandra;
-    darwinConfigurations.raikusy = nix-darwin.lib.darwinSystem {
+    darwinConfigurations.raikusy = darwin.lib.darwinSystem {
       inherit system specialArgs;
       modules = [
         # lix-module.nixosModules.default
         # determinate.darwinModules.default
         home-manager.darwinModules.home-manager
-        nix-homebrew.darwinModules.nix-homebrew
+        homebrew.darwinModules.homebrew
         ./configuration.nix
         {
           _module.args = {
@@ -59,7 +59,7 @@
           ];
         }
         {
-          nix-homebrew = {
+          homebrew = {
             # Install Homebrew under the default prefix
             enable = true;
 
@@ -71,18 +71,6 @@
 
             # Automatically migrate existing Homebrew installations
             autoMigrate = true;
-
-            # Optional: Declarative tap management
-            # taps = {
-            #   "homebrew/homebrew-core" = homebrew-core;
-            #   "homebrew/homebrew-cask" = homebrew-cask;
-            #   "homebrew/homebrew-bundle" = homebrew-bundle;
-            # };
-
-            # Optional: Enable fully-declarative tap management
-            #
-            # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
-            # mutableTaps = false;
           };
         }
         {
