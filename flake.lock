@@ -17,6 +17,20 @@
         "type": "github"
       }
     },
+    "darwin": {
+      "locked": {
+        "lastModified": 1750400657,
+        "narHash": "sha256-3vkjFnxCOP6vm5Pm13wC/Zy6/VYgei/I/2DWgW4RFeA=",
+        "rev": "b2485d56967598da068b5a6946dadda8bfcbcd37",
+        "revCount": 804391,
+        "type": "tarball",
+        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2505.804391%2Brev-b2485d56967598da068b5a6946dadda8bfcbcd37/019790ff-df6a-76bc-99ab-3b6d684ec4fb/source.tar.gz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://flakehub.com/f/NixOS/nixpkgs/0.2505.804391.tar.gz"
+      }
+    },
     "home-manager": {
       "locked": {
         "lastModified": 1750400657,
@@ -31,21 +45,7 @@
         "url": "https://flakehub.com/f/NixOS/nixpkgs/0.2505.804391.tar.gz"
       }
     },
-    "nix-darwin": {
-      "locked": {
-        "lastModified": 1750400657,
-        "narHash": "sha256-3vkjFnxCOP6vm5Pm13wC/Zy6/VYgei/I/2DWgW4RFeA=",
-        "rev": "b2485d56967598da068b5a6946dadda8bfcbcd37",
-        "revCount": 804391,
-        "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2505.804391%2Brev-b2485d56967598da068b5a6946dadda8bfcbcd37/019790ff-df6a-76bc-99ab-3b6d684ec4fb/source.tar.gz"
-      },
-      "original": {
-        "type": "tarball",
-        "url": "https://flakehub.com/f/NixOS/nixpkgs/0.2505.804391.tar.gz"
-      }
-    },
-    "nix-homebrew": {
+    "homebrew": {
       "inputs": {
         "brew-src": "brew-src"
       },
@@ -79,9 +79,9 @@
     },
     "root": {
       "inputs": {
+        "darwin": "darwin",
         "home-manager": "home-manager",
-        "nix-darwin": "nix-darwin",
-        "nix-homebrew": "nix-homebrew",
+        "homebrew": "homebrew",
         "nixpkgs": "nixpkgs"
       }
     }
