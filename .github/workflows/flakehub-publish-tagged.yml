@@ -19,8 +19,8 @@ jobs:
       - uses: "actions/checkout@v4"
         with:
           ref: "${{ (inputs.tag != null) && format('refs/tags/{0}', inputs.tag) || '' }}"
-      - uses: "DeterminateSystems/determinate-nix-action@v3"
-      - uses: "DeterminateSystems/flakehub-push@main"
+      - uses: "DeterminateSystems/determinate-nix-action@v3.6.6"
+      - uses: "DeterminateSystems/flakehub-push@v5"
         with:
           visibility: "public"
           name: "raikusy/dotfiles"
