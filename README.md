@@ -1,3 +1,19 @@
+# Use as a flake
+
+[![FlakeHub](https://img.shields.io/endpoint?url=https://flakehub.com/f/raikusy/dotfiles/badge)](https://flakehub.com/flake/raikusy/dotfiles)
+
+Add `dotfiles` to your `flake.nix`:
+
+```nix
+{
+  inputs.dotfiles.url = "https://flakehub.com/f/raikusy/dotfiles/*";
+
+  outputs = { self, dotfiles }: {
+    darwinConfigurations.raikusy = dotfiles.darwinConfigurations.raikusy;
+  };
+}
+```
+
 # dotfiles
 
 1. Clone this repo
