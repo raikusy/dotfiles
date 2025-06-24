@@ -29,8 +29,7 @@
   in {
     darwinConfigurations = {
       raikusy = darwin.lib.darwinSystem {
-        system = system;
-        specialArgs = specialArgs;
+        inherit system specialArgs;
         modules = [
           ./configuration.nix
           home-manager.darwinModules.home-manager
