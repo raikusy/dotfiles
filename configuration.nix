@@ -1,25 +1,11 @@
-{self, ...}: {
-  # nix.settings = {
-  #   # Necessary for using flakes on this system.
-  #   experimental-features = "nix-command flakes";
-  #   trusted-users = [
-  #     "root"
-  #     "raikusy"
-  #     "@wheel"
-  #   ];
-  #   use-xdg-base-directories = true;
-  #   accept-flake-config = true;
-  #   sandbox = false;
-  #   allowed-users = ["@wheel"];
-  #   trusted-substituters = [
-  #     "https://cache.nixos.org"
-  #     "https://nix-community.cachix.org"
-  #   ];
-  # };
-  nix.channel.enable = false;
-
+{
+  pkgs,
+  lib,
+  inputs,
+  ...
+}: {
   # Set Git commit hash for darwin-version.
-  system.configurationRevision = self.rev or self.dirtyRev or null;
+  system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
@@ -145,47 +131,36 @@
   # };
 
   # Nix configuration
-  nix = {
-    enable = false;
-    # channel = {
-    #   enable = false;
-    # };
-    # gc = {
-    #   automatic = true;
-    #   interval = { Weekday = 0; Hour = 0; Minute = 0; };
-    #   options = "--delete-older-than 7d";
-    # };
-    settings = {
-      experimental-features = "nix-command flakes";
-      trusted-users = [
-        "root"
-        "raikusy"
-        "@wheel"
-      ];
-      use-xdg-base-directories = true;
-      accept-flake-config = true;
-      sandbox = false;
-      allowed-users = ["@wheel"];
-      trusted-substituters = [
-        "https://cache.nixos.org"
-        "https://nix-community.cachix.org"
-      ];
-      max-jobs = "auto";
-      cores = 0;
-      extra-experimental-features = [
-        "recursive-nix"
-        "ca-derivations"
-      ];
-      extra-trusted-substituters = [
-        "https://cache.nixos.org"
-        "https://nix-community.cachix.org"
-      ];
-      extra-trusted-public-keys = [
-        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      ];
-      keep-outputs = true;
-      keep-derivations = true;
-    };
+  nix.settings = {
+    experimental-features = "nix-command flakes";
+    trusted-users = [
+      "root"
+      "raikusy"
+      "@wheel"
+    ];
+    use-xdg-base-directories = true;
+    accept-flake-config = true;
+    sandbox = false;
+    allowed-users = ["@wheel"];
+    trusted-substituters = [
+      "https://cache.nixos.org"
+      "https://nix-community.cachix.org"
+    ];
+    max-jobs = "auto";
+    cores = 0;
+    extra-experimental-features = [
+      "recursive-nix"
+      "ca-derivations"
+    ];
+    extra-trusted-substituters = [
+      "https://cache.nixos.org"
+      "https://nix-community.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+    ];
+    keep-outputs = true;
+    keep-derivations = true;
   };
 
   users.users.raikusy = {
