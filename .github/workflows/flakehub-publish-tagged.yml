@@ -20,6 +20,7 @@ jobs:
         with:
           ref: "${{ (inputs.tag != null) && format('refs/tags/{0}', inputs.tag) || '' }}"
       - uses: "DeterminateSystems/determinate-nix-action@v3.6.6"
+      - run: "﻿﻿sudo nix run nix-darwin --extra-experimental-features \"nix-command flakes\" -- switch --flake . --impure"
       - uses: "DeterminateSystems/flakehub-push@v5"
         with:
           visibility: "public"
