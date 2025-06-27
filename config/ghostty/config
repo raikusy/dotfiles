@@ -7,7 +7,7 @@ font-size = 12
 
 # Theme and colors
 theme = catppuccin-mocha
-background-opacity = 0.93  # Slightly more transparent for aesthetics
+background-opacity = 0.80
 
 # Optional: Custom palette (uncomment and edit as desired)
 # palette = 0=#1d2021
@@ -39,9 +39,6 @@ keybind = cmd+shift+d=new_split:down
 keybind = cmd+shift+w=close_split
 keybind = global:cmd+grave_accent=toggle_quick_terminal
 keybind = global:cmd+§=toggle_quick_terminal
-
-# Claude Code integration
-keybind = shift+enter=text:\x1b[E
 
 # Unbinds
 keybind = option+right=unbind
