@@ -10,7 +10,12 @@ font-size = 12
 
 # Theme and colors
 theme = catppuccin-mocha
-background-opacity = 0.95
+background-opacity = 0.93  # Slightly more transparent for aesthetics
+
+# Optional: Custom palette (uncomment and edit as desired)
+# palette = 0=#1d2021
+# palette = 8=#7c6f64
+# ... (add more as needed)
 
 # Window settings
 window-padding-x = 10
@@ -24,7 +29,7 @@ macos-option-as-alt = true
 auto-update = download
 
 # gpg pinentry freaks out if $TERM is not set
-term = xterm-256color 
+term = xterm-256color
 
 # Performance
 unfocused-split-opacity = 0.7
@@ -38,11 +43,25 @@ keybind = cmd+shift+w=close_split
 keybind = global:cmd+grave_accent=toggle_quick_terminal
 keybind = global:cmd+§=toggle_quick_terminal
 
+# Enhanced navigation
+keybind = cmd+alt+left=focus_left
+keybind = cmd+alt+right=focus_right
+keybind = cmd+alt+up=focus_up
+keybind = cmd+alt+down=focus_down
+
+# Font size controls
+keybind = cmd+plus=font_size_increase
+keybind = cmd+minus=font_size_decrease
+keybind = cmd+0=font_size_reset
+
 # Unbinds
 keybind = option+right=unbind
+keybind = option+left=unbind
 
 # Copy/paste improvements
 copy-on-select = clipboard
+# paste-on-middle-click = true  # Uncomment if you want X11-style paste
+
 confirm-close-surface = false
 
 # Shell integration
