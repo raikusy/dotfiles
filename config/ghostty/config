@@ -1,9 +1,6 @@
 # Fish shell
 command = /Users/raikusy/.nix-profile/bin/fish --login --interactive
 
-# Claude Code integration
-keybind = shift+enter=text:\x1b[E
-
 # Font settings for code
 font-family = "JetBrains Mono"
 font-size = 12
@@ -43,16 +40,8 @@ keybind = cmd+shift+w=close_split
 keybind = global:cmd+grave_accent=toggle_quick_terminal
 keybind = global:cmd+§=toggle_quick_terminal
 
-# Enhanced navigation
-keybind = cmd+alt+left=focus_left
-keybind = cmd+alt+right=focus_right
-keybind = cmd+alt+up=focus_up
-keybind = cmd+alt+down=focus_down
-
-# Font size controls
-keybind = cmd+plus=font_size_increase
-keybind = cmd+minus=font_size_decrease
-keybind = cmd+0=font_size_reset
+# Claude Code integration
+keybind = shift+enter=text:\x1b[E
 
 # Unbinds
 keybind = option+right=unbind
