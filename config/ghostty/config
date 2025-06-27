@@ -2,7 +2,7 @@
 command = /Users/raikusy/.nix-profile/bin/fish --login --interactive
 
 # Claude Code integration
-keybind = shift+enter=text:\x1b[13;2u
+keybind = shift+enter=text:\x1b[E
 
 # Font settings for code
 font-family = "JetBrains Mono"
