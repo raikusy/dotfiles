@@ -1,6 +1,4 @@
 {
-  pkgs,
-  lib,
   inputs,
   ...
 }: {
@@ -12,7 +10,7 @@
   system.stateVersion = 5;
 
   # The platform the configuration will be used on.
-  nixpkgs = {
+  nixpkgs = { 
     hostPlatform = "aarch64-darwin";
     config = {
       allowBroken = true;
@@ -43,16 +41,9 @@
     ];
     casks = [
       "ghostty"
-      "1password-cli"
       "hammerspoon"
       "miniconda"
-      "visual-studio-code"
-      "warp"
       "font-symbols-only-nerd-font"
-      "gitify"
-      "insomnia"
-      "orbstack"
-      "vlc"
     ];
   };
 

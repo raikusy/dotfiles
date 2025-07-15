@@ -31,8 +31,6 @@
     bat # Cat clone with syntax highlighting
     zoxide # Smarter cd command
     kondo # Save disk space by cleaning unneeded files
-    ox # Independent Rust text editor that runs in your terminal
-    superfile # Supercharged file manager
     wiper
 
     # Search and Filter
@@ -47,17 +45,9 @@
     fh # Nix package manager
     gh # GitHub CLI
     git-credential-manager # Git credential manager
-    delta # Better git diffs
-    difftastic # Structural diff tool
-    act # Run GitHub Actions locally
-    actionlint # GitHub Actions linting
-    action-validator # GitHub Actions validator
     cocoapods # iOS dependency manager
     watchman # File watching service
-    brotli # Brotli compression format
-    pigz # Parallel gzip
     node-gyp # Node.js addon build tool
-    zellij # Terminal multiplexer
 
     # Package Managers
     volta # JavaScript tool manager
@@ -67,7 +57,6 @@
     rustup # Rust toolchain installer
     rustc # Rust compiler
     rustlings # Rust learning exercises
-    bun # All-in-one JavaScript runtime & toolkit
     deno # JavaScript/TypeScript runtime
 
     # Container & Virtualization
@@ -80,11 +69,9 @@
     wget # Network file retriever
 
     # macOS Specific
-    mas # Mac App Store CLI
     xcode-install # Install and update Xcode
 
     # Cloud & Infrastructure
-    awscli2 # AWS CLI
     go # Go programming language
     fastfetch # Fast fetch
   ];
@@ -162,10 +149,6 @@
   programs = {
     # Let Home Manager install and manage itself.
     home-manager = {
-      enable = true;
-    };
-
-    bun = {
       enable = true;
     };
 
@@ -289,6 +272,7 @@
           rip completions fish | source
           colima completion fish | source
           atuin init fish | source
+          uv generate-shell-completion fish | source
         '';
       plugins = [
         {
@@ -331,6 +315,7 @@
       config = {
         theme = "base16";
         paging = "never";
+        style = "default";
         color = "always";
       };
     };
