@@ -1,48 +1,65 @@
-# Fish shell
-command = /Users/raikusy/.nix-profile/bin/fish --login --interactive
+# --- Ghostty Modern Terminal Experience Config ---
 
-# Font settings for code
+# --- Shell ---
+command = /Users/raikusy/.nix-profile/bin/fish --login --interactive
+shell-integration = fish
+shell-integration-features = cursor, sudo, title
+
+# --- Font ---
 font-family = "JetBrains Mono"
 font-size = 14
 
-# Theme and colors
+# --- Theme & Colors ---
 theme = catppuccin-mocha
+background = 282c34
+foreground = ffffff
 background-opacity = 0.90
 
+# --- 16-Color Palette (Gruvbox-inspired) ---
+palette = 0=#1d2021
+palette = 8=#7c6f64
+palette = 1=#cc241d
+palette = 9=#fb4934
+palette = 2=#98971a
+palette = 10=#b8bb26
+palette = 3=#d79921
+palette = 11=#fabd2f
+palette = 4=#458588
+palette = 12=#83a598
+palette = 5=#b16286
+palette = 13=#d3869b
+palette = 6=#689d6a
+palette = 14=#8ec07c
+palette = 7=#a89984
+palette = 15=#fbf1c7
 
-# Window settings
-window-padding-x = 10
-window-padding-y = 10
+# --- Window & UI ---
+window-padding-x = 16
+window-padding-y = 16
 window-decoration = false
-cursor-style = block
 macos-titlebar-style = tabs
 macos-option-as-alt = true
 
-# Auto-update Ghostty when a new release is available.
-auto-update = download
+# --- Performance & Behavior ---
+unfocused-split-opacity = 0.7
+confirm-close-surface = false
 
-# gpg pinentry freaks out if $TERM is not set
+# --- Terminal Type ---
 term = xterm-256color
 
-# Performance
-unfocused-split-opacity = 0.7
+# --- Auto-Update ---
+auto-update = download
 
-# Useful keybinds
-keybind = cmd+shift+t=new_split:right
-keybind = cmd+shift+d=new_split:down
+# --- Productivity Keybinds ---
 keybind = global:cmd+grave_accent=toggle_quick_terminal
 keybind = global:cmd+§=toggle_quick_terminal
-
-# Unbinds
 keybind = option+right=unbind
 keybind = option+left=unbind
 
-# Copy/paste improvements
-# copy-on-select = clipboard
+# --- Clipboard & Mouse ---
+copy-on-select = clipboard
 # paste-on-middle-click = true  # Uncomment if you want X11-style paste
 
-confirm-close-surface = false
-
-# Shell integration
-shell-integration = fish
-shell-integration-features = cursor, sudo, title
+# --- Comments ---
+# This config is optimized for a modern, productive, and visually appealing terminal experience.
+# Adjust font-family, palette, or keybinds as desired for personal preference.
