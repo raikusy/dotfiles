@@ -13,7 +13,7 @@ font-size = 14
 theme = catppuccin-mocha
 background = 282c34
 foreground = ffffff
-background-opacity = 0.90
+background-opacity = 0.95
 
 # --- 16-Color Palette (Gruvbox-inspired) ---
 palette = 0=#1d2021
@@ -36,9 +36,11 @@ palette = 15=#fbf1c7
 # --- Window & UI ---
 window-padding-x = 16
 window-padding-y = 16
+window-height = 1000
 window-decoration = false
 macos-titlebar-style = tabs
 macos-option-as-alt = true
+quick-terminal-animation-duration = 0
 
 # --- Performance & Behavior ---
 unfocused-split-opacity = 0.7
