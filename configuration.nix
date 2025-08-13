@@ -37,7 +37,13 @@
   homebrew = {
     enable = true;
     brews = [
+      "superfile"
       "composer"
+      "sevenzip"
+      "jq"
+      "poppler"
+      "resvg"
+      "imagemagick"
     ];
     casks = [
       "ghostty"

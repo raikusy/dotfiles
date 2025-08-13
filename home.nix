@@ -25,7 +25,7 @@
     neovim # Hyperextensible Vim-based text editor
 
     # File Management and Navigation
-    yazi # Terminal file manager
+    yazi
     eza # Modern replacement for ls
     fd # Simple, fast alternative to find
     bat # Cat clone with syntax highlighting
@@ -258,6 +258,17 @@
         print_path = {
           description = "Print PATH variable in a nicely formatted way";
           body = "echo $PATH | string split ' ' | awk '{print NR \" \", $0}' | bat --plain --language=ini";
+        };
+        y = {
+          description = "";
+          body = ''
+            set tmp (mktemp -t "yazi-cwd.XXXXXX")
+            yazi $argv --cwd-file="$tmp"
+            if read -z cwd < "$tmp"; and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
+              builtin cd -- "$cwd"
+            end
+            rm -f -- "$tmp"
+          '';
         };
       };
       # Add environment variables in a more organized way
