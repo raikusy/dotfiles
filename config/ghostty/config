@@ -7,10 +7,10 @@ shell-integration-features = cursor, sudo, title
 
 # --- Font ---
 font-family = "JetBrains Mono"
-font-size = 14
+font-size = 13
 
 # --- Theme & Colors ---
-theme = catppuccin-mocha
+theme = Tomorrow Night Blue
 background = 282c34
 foreground = ffffff
 # background-opacity = 0.95
