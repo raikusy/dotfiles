@@ -44,6 +44,9 @@
       "poppler"
       "resvg"
       "imagemagick"
+      "rip2"
+      "colima"
+      "fh"
     ];
     casks = [
       "ghostty"

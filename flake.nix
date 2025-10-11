@@ -67,6 +67,6 @@
       };
     };
 
-    # darwinPackages = self.darwinConfigurations."raikusy".pkgs;
+    darwinPackages = self.darwinConfigurations."raikusy".pkgs;
   };
 }

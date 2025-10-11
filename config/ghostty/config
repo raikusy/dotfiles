@@ -1,7 +1,7 @@
 # --- Ghostty Modern Terminal Experience Config ---
 
 # --- Shell ---
-command = /Users/raikusy/.nix-profile/bin/fish --login --interactive
+command = /etc/profiles/per-user/raikusy/bin/fish --login --interactive
 shell-integration = fish
 shell-integration-features = cursor, sudo, title
 

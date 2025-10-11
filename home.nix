@@ -47,11 +47,10 @@
     git-credential-manager # Git credential manager
     cocoapods # iOS dependency manager
     watchman # File watching service
-    node-gyp # Node.js addon build tool
 
     # Package Managers
     volta # JavaScript tool manager
-    cargo-update # Update Rust packages
+    # cargo-update # Update Rust packages - temporarily disabled due to Ruby build issues
 
     # Programming Languages & Runtimes
     rustup # Rust toolchain installer
@@ -89,7 +88,7 @@
   home.sessionVariables = {
     DOTFILES = "${config.home.homeDirectory}/dotfiles";
     EDITOR = "cursor";
-    USER_PROFILE = "/run/current-system/etc/profiles/per-user/${config.home.username}";
+    # USER_PROFILE = "/run/current-system/etc/profiles/per-user/${config.home.username}";
     NIX_PROFILE = "${config.home.homeDirectory}/.nix-profile";
     NODE_OPTIONS = "--max-old-space-size=8192";
     BUN_INSTALL = "${config.home.homeDirectory}/.bun";
@@ -109,12 +108,12 @@
     CARGO_HOME = "${config.home.homeDirectory}/.cargo";
   };
 
-  home.file = {
+  /* home.file = {
     ".nix-profile" = {
       source = "${config.home.sessionVariables.USER_PROFILE}";
       recursive = true;
     };
-  };
+  }; */
 
   home.sessionPath = [
     "${config.home.homeDirectory}/bin"
@@ -127,7 +126,6 @@
     "${config.xdg.stateHome}/nix/profile/bin"
     "/run/current-system/sw/bin"
     "/nix/var/nix/profiles/default/bin"
-    "/Applications/Windsurf.app/Contents/Resources/app/bin"
     "${config.home.sessionVariables.CARGO_HOME}/bin"
   ];
 
@@ -396,7 +394,7 @@
         };
         gpg = {
           format = "ssh";
-          allowedSignersFile = builtins.readFile "${config.xdg.configHome}/git/allowed-signers";
+          allowedSignersFile = "${config.xdg.configHome}/git/allowed-signers";
           ssh = {
             program = builtins.toPath "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
           };
