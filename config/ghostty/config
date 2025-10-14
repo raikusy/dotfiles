@@ -3,7 +3,7 @@
 # --- Shell ---
 command = /etc/profiles/per-user/raikusy/bin/fish --login --interactive
 shell-integration = fish
-shell-integration-features = cursor, sudo, title
+shell-integration-features = sudo
 
 # --- Font ---
 font-family = "JetBrains Mono"
@@ -36,9 +36,9 @@ foreground = ffffff
 # --- Window & UI ---
 window-padding-x = 16
 window-padding-y = 16
-window-height = 1000
-window-decoration = false
-macos-titlebar-style = tabs
+window-height = 1200
+window-decoration = true
+; macos-titlebar-style = tabs
 macos-option-as-alt = true
 quick-terminal-animation-duration = 0
 
@@ -59,7 +59,7 @@ keybind = option+right=unbind
 keybind = option+left=unbind
 
 # --- Clipboard & Mouse ---
-copy-on-select = clipboard
+; copy-on-select = clipboard
 # paste-on-middle-click = true  # Uncomment if you want X11-style paste
 
 # --- Comments ---

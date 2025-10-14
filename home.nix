@@ -41,7 +41,7 @@
     git # Version control system
     nil # Nix language server
     nixd # Nix debugger
-    # alejandra # Nix code formatter
+    alejandra # Nix code formatter
     fh # Nix package manager
     gh # GitHub CLI
     git-credential-manager # Git credential manager
@@ -49,13 +49,13 @@
     watchman # File watching service
 
     # Package Managers
-    volta # JavaScript tool manager
+    # volta # JavaScript tool manager
     # cargo-update # Update Rust packages - temporarily disabled due to Ruby build issues
 
     # Programming Languages & Runtimes
     rustup # Rust toolchain installer
     rustc # Rust compiler
-    rustlings # Rust learning exercises
+    # rustlings # Rust learning exercises
     deno # JavaScript/TypeScript runtime
 
     # Container & Virtualization
@@ -122,10 +122,11 @@
     "${config.home.homeDirectory}/.volta/bin"
     "${config.home.homeDirectory}/.deno/bin"
     "${config.home.homeDirectory}/.bun/bin"
-    "${config.home.homeDirectory}/.nix-profile/bin"
+    # "${config.home.homeDirectory}/.nix-profile/bin"
     "${config.xdg.stateHome}/nix/profile/bin"
     "/run/current-system/sw/bin"
     "/nix/var/nix/profiles/default/bin"
+    "/etc/profiles/per-user/raikusy/bin"
     "${config.home.sessionVariables.CARGO_HOME}/bin"
   ];
 

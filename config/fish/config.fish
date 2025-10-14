@@ -23,11 +23,9 @@ if test (uname) = Darwin
         $XDG_STATE_HOME/nix/profile/bin \
         $HOME/.nix-profile/bin \
         /run/current-system/sw/bin \
-        /nix/var/nix/profiles/default/bin
+        /nix/var/nix/profiles/default/bin \
+        /etc/profiles/per-user/$USER/bin
 end
-
-################### Windsurf
-fish_add_path --global --move --path /Applications/Windsurf.app/Contents/Resources/app/bin
 
 ################### Deno
 fish_add_path --global --move --path $HOME/.deno/bin

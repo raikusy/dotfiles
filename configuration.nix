@@ -44,14 +44,13 @@
       "poppler"
       "resvg"
       "imagemagick"
-      "rip2"
-      "colima"
-      "fh"
+      # "rip2"
+      # "colima"
     ];
     casks = [
-      "ghostty"
-      "hammerspoon"
-      "miniconda"
+      # "ghostty"
+      # "hammerspoon"
+      # "miniconda"
       "font-symbols-only-nerd-font"
     ];
   };
@@ -91,7 +90,7 @@
       };
       trackpad = {
         Clicking = true;
-        TrackpadThreeFingerDrag = true;
+        TrackpadThreeFingerDrag = false;
       };
     };
   };
